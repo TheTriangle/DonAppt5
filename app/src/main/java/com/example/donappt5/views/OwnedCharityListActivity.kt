@@ -6,25 +6,28 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.AbsListView
 import android.widget.AdapterView.OnItemClickListener
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.donappt5.R
-import com.example.donappt5.views.adapters.CharityAdapter
-import com.example.donappt5.databinding.ActivityOwnedCharityListBinding
 import com.example.donappt5.data.model.Charity
-import com.example.donappt5.util.MyGlobals
 import com.example.donappt5.data.util.Status
+import com.example.donappt5.databinding.ActivityOwnedCharityListBinding
+import com.example.donappt5.util.MyGlobals
 import com.example.donappt5.viewmodels.OwnedCharityListVeiwModel
-import com.example.donappt5.views.charitycreation.CharityCreationActivity
+import com.example.donappt5.views.adapters.CharityAdapter
+import kotlinx.android.synthetic.main.activity_owned_charity_list.*
 
-class OwnedCharityListActivity : AppCompatActivity() {
+class OwnedCharityListActivity : FragmentActivity() {
 
     lateinit var binding: ActivityOwnedCharityListBinding
     lateinit var adapter: CharityAdapter
     private var preLast = 0
     lateinit var myGlobals: MyGlobals
     private lateinit var viewModel: OwnedCharityListVeiwModel
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,18 @@ class OwnedCharityListActivity : AppCompatActivity() {
         viewModel.fillData()
         setupObserver()
         setupView()
+    }
+
+    override fun onStart(){
+        super.onStart()
+       // val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+      //  val navController = navHostFragment.navController
+        addFab.setOnClickListener {
+          //  navController.navigate(R.id.owned_charity_to_charity_creation)
+           // navController.navigate(R.id.owned_charity_to_charity_creation)
+            // val intent = Intent(this@OwnedCharityListActivity, CharityCreationActivity::class.java)
+            // startActivity(intent)
+        }
     }
 
     override fun onResume() {
@@ -118,10 +133,6 @@ class OwnedCharityListActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
 
-            addFab.setOnClickListener {
-                val intent = Intent(this@OwnedCharityListActivity, CharityCreationActivity::class.java)
-                startActivity(intent)
-            }
         }
 
 
