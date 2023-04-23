@@ -41,15 +41,14 @@ class OwnedCharityListActivity : FragmentActivity() {
         setupView()
     }
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
-       // val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
-      //  val navController = navHostFragment.navController
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
         addFab.setOnClickListener {
-          //  navController.navigate(R.id.owned_charity_to_charity_creation)
-           // navController.navigate(R.id.owned_charity_to_charity_creation)
-            // val intent = Intent(this@OwnedCharityListActivity, CharityCreationActivity::class.java)
-            // startActivity(intent)
+            navController.navigate(R.id.owned_charity_to_charity_creation)
+            // Это должно работать. Но падает с ошибкой. Закомментить все строчки с navContorller чтоб работало
         }
     }
 
@@ -156,8 +155,6 @@ class OwnedCharityListActivity : FragmentActivity() {
             }
         }
     }
-
-
 
 
     private fun renderList(projects: List<Charity>) {
