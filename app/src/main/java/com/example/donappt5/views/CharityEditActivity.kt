@@ -26,8 +26,8 @@ import com.example.donappt5.databinding.ActivityCharityeditBinding
 import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.data.util.Status
-import com.example.donappt5.util.MyGlobals
-import com.example.donappt5.util.Util
+import com.example.donappt5.data.util.MyGlobals
+import com.example.donappt5.data.util.Util
 import com.example.donappt5.viewmodels.CharityEditViewModel
 import com.example.donappt5.viewmodels.OnBoardingViewModel
 import com.google.android.gms.tasks.Task

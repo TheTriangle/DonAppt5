@@ -18,7 +18,7 @@ import com.example.donappt5.views.adapters.CharityAdapter
 import com.example.donappt5.databinding.FragmentCharityListBinding
 import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.util.Status
-import com.example.donappt5.util.Util
+import com.example.donappt5.data.util.Util
 import com.example.donappt5.viewmodels.CharityListViewModel
 import com.example.donappt5.views.charitydescription.CharityActivity
 

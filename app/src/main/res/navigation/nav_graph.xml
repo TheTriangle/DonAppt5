@@ -3,39 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ownedCharityListActivity">
+    app:startDestination="@id/authenticationActivity">
+    <activity
+        android:id="@+id/authenticationActivity"
+        android:name="com.example.donappt5.views.AuthenticationActivity"
+        android:label="activity_authentication"
+        tools:layout="@layout/activity_authentication">
+    </activity>
+
+    <action
+        android:id="@+id/authentication_to_charity_list"
+        app:destination="@id/charityListActivity"
+        app:popUpTo="@id/authenticationActivity"
+        app:popUpToInclusive="true" />
+
+    <activity
+        android:id="@+id/charityListActivity"
+        android:name="com.example.donappt5.views.charitylist.CharityListActivity"
+        android:label="activity_charitylist"
+        tools:layout="@layout/activity_charitylist">
+    </activity>
+
+    <action
+        android:id="@+id/charity_list_to_owned"
+        app:destination="@id/ownedCharityListActivity"
+        app:popUpTo="@id/charityListActivity"
+        app:popUpToInclusive="true" />
+
     <activity
         android:id="@+id/ownedCharityListActivity"
         android:name="com.example.donappt5.views.OwnedCharityListActivity"
         android:label="activity_owned_charity_list"
         tools:layout="@layout/activity_owned_charity_list">
-        <action
-            android:id="@+id/owned_charity_to_charity_creation"
-            app:destination="@id/charityCreationActivity"
-            app:popUpTo="@id/ownedCharityListActivity"
-            app:popUpToInclusive="true" />
     </activity>
 
+    <action
+        android:id="@+id/owned_charity_to_charity_creation"
+        app:destination="@id/charityCreationActivity"
+        app:popUpTo="@id/ownedCharityListActivity"
+        app:popUpToInclusive="true" />
     <activity
         android:id="@+id/charityCreationActivity"
         android:name="com.example.donappt5.views.charitycreation.CharityCreationActivity"
         android:label="CharityCreationActivity" >
-        <action
-            android:id="@+id/charity_creation_to_locator"
-            app:destination="@id/locatorActivity"
-            app:popUpTo="@id/charityCreationActivity"
-            app:popUpToInclusive="true" />
     </activity>
     <activity
         android:id="@+id/locatorActivity"
         android:name="com.example.donappt5.views.charitycreation.popups.LocatorActivity"
         android:label="LocatorActivity" >
-        <action
-            android:id="@+id/locator_to_tags"
-            app:destination="@id/tagsFragment"
-            app:popUpTo="@id/locatorActivity"
-            app:popUpToInclusive="true" />
     </activity>
+    <action
+        android:id="@+id/charity_creation_to_locator"
+        app:destination="@id/locatorActivity"
+        app:popUpTo="@id/charityCreationActivity"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/locator_to_tags"
+        app:destination="@id/tagsFragment"
+        app:popUpTo="@id/locatorActivity"
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/tagsFragment"
         android:name="com.example.donappt5.views.onboarding.TagsFragment"

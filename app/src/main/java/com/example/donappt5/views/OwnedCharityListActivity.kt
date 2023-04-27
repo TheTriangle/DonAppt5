@@ -15,7 +15,7 @@ import com.example.donappt5.R
 import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.util.Status
 import com.example.donappt5.databinding.ActivityOwnedCharityListBinding
-import com.example.donappt5.util.MyGlobals
+import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.viewmodels.OwnedCharityListVeiwModel
 import com.example.donappt5.views.adapters.CharityAdapter
 import kotlinx.android.synthetic.main.activity_owned_charity_list.*

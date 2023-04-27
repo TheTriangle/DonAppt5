@@ -32,8 +32,8 @@ import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.services.FirestoreService.setCharityLocation
 import com.example.donappt5.data.util.Status
 import com.example.donappt5.databinding.ActivityCharitycreationBinding
-import com.example.donappt5.util.MyGlobals
-import com.example.donappt5.util.Util.getRandomString
+import com.example.donappt5.data.util.MyGlobals
+import com.example.donappt5.data.util.Util.getRandomString
 import com.example.donappt5.viewmodels.CharityEditViewModel
 import com.example.donappt5.views.charitycreation.popups.ActivityConfirm
 import com.example.donappt5.views.charitycreation.popups.LocatorActivity

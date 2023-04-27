@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.donappt5.R
 import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.data.util.Status
-import com.example.donappt5.util.MyGlobals
-import com.example.donappt5.util.Util
+import com.example.donappt5.data.util.MyGlobals
+import com.example.donappt5.data.util.Util
 import com.example.donappt5.viewmodels.ProfileViewModel
 import com.example.donappt5.views.charitylist.CharityListActivity
 import com.example.donappt5.views.onboarding.OnBoardingActivity

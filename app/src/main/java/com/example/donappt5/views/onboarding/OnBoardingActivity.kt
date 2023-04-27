@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.donappt5.databinding.ActivityOnBoardingBinding
 import com.example.donappt5.data.model.OnBoardingDonationRecord
 import com.example.donappt5.data.util.Status
-import com.example.donappt5.util.MyGlobals
+import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.viewmodels.OnBoardingViewModel
 import com.example.donappt5.views.charitylist.CharityListActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView

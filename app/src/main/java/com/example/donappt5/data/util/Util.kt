@@ -1,4 +1,4 @@
-package com.example.donappt5.util
+package com.example.donappt5.data.util
 
 import java.util.*
 
