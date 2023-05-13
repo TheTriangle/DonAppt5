@@ -131,15 +131,7 @@ class ProfileActivity : AppCompatActivity() {
         builder.setView(input)
         builder.setTitle("Enter your username")
         builder.setPositiveButton("OK") { _: DialogInterface?, _: Int ->
-            val user = FirebaseAuth.getInstance().currentUser
-            val ans = input.text.toString()
-            val db = FirebaseFirestore.getInstance()
-            val update =
-                HashMap<String, Any>()
-            update["name"] = ans
-            tvUserName.text = ans
-            db.collection("users").document(user!!.uid)
-                .update(update)
+            tvUserName.text = viewModel.updateUserName(input.text.toString())
         }
         builder.setNegativeButton(
             "Cancel"
