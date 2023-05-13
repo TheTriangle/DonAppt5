@@ -72,6 +72,13 @@ class CharityCreationActivity : AppCompatActivity() {
 
 
     private fun setupObserver() {
+        viewModel.shouldCloseLiveData.observe(
+            this
+        ) {
+            it.getContentIfNotHandled()?.let {
+                finish()
+            }
+        }
         viewModel.edited.observe(this) {
             when (it.status) {
                 Status.SUCCESS -> {
