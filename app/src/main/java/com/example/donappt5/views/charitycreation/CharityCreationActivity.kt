@@ -1,4 +1,5 @@
 package com.example.donappt5.views.charitycreation
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -14,64 +15,37 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
 import com.example.donappt5.R
 import com.example.donappt5.data.model.Charity
-import com.example.donappt5.data.services.FirestoreService.setCharityLocation
 import com.example.donappt5.data.util.Status
 import com.example.donappt5.databinding.ActivityCharitycreationBinding
-import com.example.donappt5.util.MyGlobals
-import com.example.donappt5.util.Util.getRandomString
 import com.example.donappt5.viewmodels.CharityEditViewModel
 import com.example.donappt5.views.charitycreation.popups.ActivityConfirm
 import com.example.donappt5.views.charitycreation.popups.LocatorActivity
 import com.example.donappt5.views.charitycreation.popups.TagsActivity
-import com.google.android.gms.tasks.Task
-import com.google.common.primitives.Ints
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 import com.koalap.geofirestore.GeoFire
 import com.koalap.geofirestore.GeoLocation
-import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.collections.HashMap
 
 class CharityCreationActivity : AppCompatActivity() {
     lateinit var context: Context
     var SELECT_PICTURE = 2878
-    var TAGS_COUNT = 6
-
     lateinit var binding: ActivityCharitycreationBinding
-    var creatingChar: Charity? = null
-    var cart = 0
-    var ckids = 1
-    var cpov = 2
-    var csci = 3
-    var cheal = 4
-    var cedu = 5
-    var ctags = BooleanArray(TAGS_COUNT)
     var pathtoimage: String? = null
-    var fileUrl: String? = null
     var fragDesc: CharityCreateDesc? = null
     var fragCredentials: CharityCreatePaymentCredentials? = null
     var latitude = -1000.0
     var longitude = -1000.0
-    var myGlobals: MyGlobals? = null
     lateinit var viewModel: CharityEditViewModel
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +54,6 @@ class CharityCreationActivity : AppCompatActivity() {
         binding = ActivityCharitycreationBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[CharityEditViewModel::class.java]
         context = this
-        myGlobals?.setupBottomNavigation(context, this, binding.bottomNavigation)
 
         viewModel.charity = Charity()
 
@@ -90,7 +63,7 @@ class CharityCreationActivity : AppCompatActivity() {
             })
         }
         setupObserver()
-        setupView(Charity())
+        setupView()
     }
 
     fun loadImage() {
@@ -99,6 +72,13 @@ class CharityCreationActivity : AppCompatActivity() {
 
 
     private fun setupObserver() {
+        viewModel.shouldCloseLiveData.observe(
+            this
+        ) {
+            it.getContentIfNotHandled()?.let {
+                finish()
+            }
+        }
         viewModel.edited.observe(this) {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -199,21 +179,15 @@ class CharityCreationActivity : AppCompatActivity() {
 
     }
 
-    private fun setupView(charity: Charity) {
+    private fun setupView() {
         val view = binding.root
         setContentView(view)
 
-        fragDesc = CharityCreateDesc.newInstance(charity.fullDescription)
-        fragCredentials = CharityCreatePaymentCredentials.newInstance(charity.paymentUrl ?: "")
+        fragDesc = CharityCreateDesc.newInstance("")
+        fragCredentials = CharityCreatePaymentCredentials.newInstance("")
 
         binding.apply {
             ivChangeImage.setImageResource(R.drawable.ic_sync)
-            if (!charity.photourl.isEmpty()) {
-                Picasso.with(this@CharityCreationActivity).load(charity.photourl).fit()
-                    .into(ivChangeImage)
-            }
-
-            etName.setText(charity.name)
 
             etName.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -227,12 +201,12 @@ class CharityCreationActivity : AppCompatActivity() {
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable) {
-                    viewModel.checkName(binding.etName.getText().toString())
+                    viewModel.checkCreationName(binding.etName.getText().toString())
                 }
             })
 
             imgbtnNameCheck.setOnClickListener {
-                viewModel.checkName(
+                viewModel.checkCreationName(
                     binding.etName.getText().toString()
                 )
             }
@@ -296,7 +270,11 @@ class CharityCreationActivity : AppCompatActivity() {
                 val result = data.getStringExtra("result")
                 if (result == "confirmed") {
                     Log.d("progresstracker", "confirmedresult")
-                    createCharity()
+                    viewModel.createCharity(
+                        name = binding.etName!!.text.toString(),
+                        fragDesc = fragDesc,
+                        fragCredentials = fragCredentials
+                    )
                 }
             } else if (resultingactivity == "TagsActivity") {
                 onTagsActivityResult(requestCode, resultCode, data)
@@ -324,143 +302,13 @@ class CharityCreationActivity : AppCompatActivity() {
         }
     }
 
-    fun createCharity() {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("charities")
-            .whereEqualTo("name", binding.etName!!.text.toString()).get()
-            .addOnCompleteListener { task: Task<QuerySnapshot> ->
-                if (task.isSuccessful && task.result.documents.size != 0) {
-                    createCharityWithID(task.result.documents[0].id)
-                } else {
-                    createCharityWithID(getRandomString(28))
-                }
-            }
-    }
-
-    fun createCharityWithID(id: String?) {
-        Log.d("progresstracker", "createCharity")
-        creatingChar = Charity()
-        creatingChar!!.name = binding.etName!!.text.toString()
-        creatingChar!!.firestoreID = id!!
-        creatingChar!!.fullDescription = fragDesc!!.text
-        creatingChar!!.paymentUrl = fragCredentials!!.getText()
-        creatingChar!!.briefDescription = creatingChar!!.fullDescription.substring(
-            0, Ints.min(
-                creatingChar!!.fullDescription.length, 50
-            )
-        )
-        // Access a Cloud Firestore instance from your Activity
-        val db = FirebaseFirestore.getInstance()
-        val charity: MutableMap<String, Any> = HashMap()
-        val user = FirebaseAuth.getInstance().currentUser
-        charity["name"] = creatingChar!!.name
-        charity["description"] = creatingChar!!.fullDescription
-        charity["qiwiurl"] = creatingChar!!.paymentUrl
-        charity["creatorid"] = user!!.uid
-        Log.d("storageprogresstracker", "-1")
-        if (viewModel.imageUri.value != null) {
-            Log.d("storageprogresstracker", "0")
-            val storage = FirebaseStorage.getInstance()
-            val storageRef = storage.reference
-            val file: Uri? = viewModel.imageUri.value //Uri.fromFile(new File(pathtoimage));
-            val imgsref = storageRef.child("charities" + creatingChar!!.firestoreID + "/photo")
-            val uploadTask = imgsref.putFile(file!!)
-            uploadTask.addOnFailureListener { exception -> // Handle unsuccessful uploads
-                Log.d("storageprogresstracker", "dam$exception")
-            }.addOnSuccessListener { taskSnapshot: UploadTask.TaskSnapshot? ->
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-                Log.d("storageprogresstracker", "1")
-                storageRef.child("charities" + creatingChar!!.firestoreID + "/photo")
-                    .downloadUrl.addOnSuccessListener { uri: Uri ->
-                        // Got the download URL for 'users/me/profile.png'
-                        Log.d("urlgetter", uri.toString())
-                        fileUrl = uri.toString()
-                        charity["photourl"] = fileUrl!!
-                        db.collection("charities").document(creatingChar!!.firestoreID)
-                            .set(charity)
-                            .addOnSuccessListener { aVoid: Void? ->
-                                setCharityLocation(
-                                    creatingChar!!.firestoreID,
-                                    GeoLocation(latitude, longitude)
-                                )
-                                putTags()
-                            }
-                    }
-                    .addOnFailureListener { exception: Exception ->
-                        // Handle any errors
-                        Log.d("storageprogresstracker", "2$exception")
-                    }
-            }
-
-            //Log.d("urlgetter", fileUrl);
-        } else {
-            Log.d("storageprogresstracker", "3")
-            db.collection("charities").document(creatingChar!!.firestoreID)
-                .set(charity)
-                .addOnSuccessListener {
-                    Log.d("Charitycreationlog", "DocumentSnapshot successfully written!")
-                    setCharityLocation(
-                        creatingChar!!.firestoreID,
-                        GeoLocation(latitude, longitude)
-                    )
-                    putTags()
-                }
-                .addOnFailureListener { e: Exception? ->
-                    Log.w(
-                        "Charitycreationlog",
-                        "Error writing document",
-                        e
-                    )
-                }
-        }
-    }
-
-    fun putTags() {
-        val db = FirebaseFirestore.getInstance()
-        val namemap: Map<String, Any> = HashMap()
-        val tagsmap: MutableMap<String, Any> = HashMap()
-        if (ctags[cart]) {
-            db.collection("tags").document("art").collection("list")
-                .document(creatingChar!!.firestoreID).set(namemap)
-            tagsmap["art"] = true
-        } else tagsmap["art"] = false
-        if (ctags[cpov]) {
-            db.collection("tags").document("poverty").collection("list")
-                .document(creatingChar!!.firestoreID).set(namemap)
-            tagsmap["poverty"] = true
-        } else tagsmap["poverty"] = false
-        if (ctags[cedu]) {
-            db.collection("tags").document("education").collection("list")
-                .document(creatingChar!!.firestoreID).set(namemap)
-            tagsmap["education"] = true
-        } else tagsmap["education"] = false
-        if (ctags[csci]) {
-            db.collection("tags").document("science&research").collection("list").document(
-                creatingChar!!.firestoreID
-            ).set(namemap)
-            tagsmap["science&research"] = true
-        } else tagsmap["science&research"] = false
-        if (ctags[ckids]) {
-            db.collection("tags").document("children").collection("list")
-                .document(creatingChar!!.firestoreID).set(namemap)
-            tagsmap["children"] = true
-        } else tagsmap["children"] = false
-        if (ctags[cheal]) {
-            db.collection("tags").document("healthcare").collection("list")
-                .document(creatingChar!!.firestoreID).set(namemap)
-            tagsmap["healthcare"] = true
-        } else tagsmap["healthcare"] = false
-        db.collection("charities").document(creatingChar!!.firestoreID).update(tagsmap)
-    }
-
     fun onTagsActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        ctags[cart] = data.getBooleanExtra("art", false)
-        ctags[ckids] = data.getBooleanExtra("kids", false)
-        ctags[cpov] = data.getBooleanExtra("poverty", false)
-        ctags[csci] = data.getBooleanExtra("science&research", false)
-        ctags[cheal] = data.getBooleanExtra("healthcare", false)
-        ctags[cedu] = data.getBooleanExtra("education", false)
+        viewModel.ctags[CART] = data.getBooleanExtra("art", false)
+        viewModel.ctags[CKIDS] = data.getBooleanExtra("kids", false)
+        viewModel.ctags[CPOV] = data.getBooleanExtra("poverty", false)
+        viewModel.ctags[CSCI] = data.getBooleanExtra("science&research", false)
+        viewModel.ctags[CHEAL] = data.getBooleanExtra("healthcare", false)
+        viewModel.ctags[CEDU] = data.getBooleanExtra("education", false)
         val intent = Intent(context, ActivityConfirm::class.java)
         intent.putExtra("CancelButtonTitle", "go back to charity creation")
         intent.putExtra("ConfirmButtonTitle", "confirm and create charity")
@@ -483,6 +331,7 @@ class CharityCreationActivity : AppCompatActivity() {
         longitude = data.getDoubleExtra("longitude", 0.0)
         if (coordsgiven) {
             Toast.makeText(context, "lat: $latitude long: $longitude", Toast.LENGTH_LONG).show()
+            viewModel.setGeoInfo(latitude, longitude)
         } else {
             Toast.makeText(context, "coordinates not given", Toast.LENGTH_SHORT).show()
         }
@@ -531,7 +380,7 @@ class CharityCreationActivity : AppCompatActivity() {
                 val docref = FirebaseFirestore.getInstance().collection("userlocations")
                     .document(creatingtest)
                 val nameMap = HashMap<String, Any>()
-                creatingChar?.name?.let { nameMap.put("name", it) }
+                viewModel.creatingChar?.name?.let { nameMap.put("name", it) }
                 docref.set(nameMap)
                 geoFirestore.setLocation(creatingtest, GeoLocation(55.8800407, 36.5754417))
                 Log.d("geoquery", "setting$creatingtest")
@@ -606,6 +455,13 @@ class CharityCreationActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val TAGS_COUNT = 6
+        const val CART = 0
+        const val CKIDS = 1
+        const val CPOV = 2
+        const val CSCI = 3
+        const val CHEAL = 4
+        const val CEDU = 5
         fun openAppSettings(context: Activity?) {
             if (context == null) {
                 return
