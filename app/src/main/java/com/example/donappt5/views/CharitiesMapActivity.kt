@@ -5,11 +5,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -37,6 +40,7 @@ import com.koalap.geofirestore.GeoLocation
 
 class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var mapView: MapView
+    lateinit var zoomMessage: TextView
     private var gmap: GoogleMap? = null
     var PERMISSION_ID = 3575
     private var mLocation: Marker? = null
@@ -59,15 +63,12 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 mLocation!!.position = viewModel.location.value!!
             }
         }
-        if (gmap != null) {
-            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(viewModel.location.value!!))
-            mLocation!!.position = viewModel.location.value!!
-        }
         getLastLocation()
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY)
         }
+        zoomMessage = findViewById(R.id.zoom_message)
         mapView = findViewById(R.id.map_view)
         mapView.onCreate(mapViewBundle)
         mapView.getMapAsync(this)
@@ -160,16 +161,7 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
             )
         )
         gmap!!.setOnCameraMoveListener {
-            val latLng = gmap!!.cameraPosition.target
-            val metersPerPx: Double =
-                1 / viewModel.getPixelsPerMeter(latLng.latitude, gmap!!.cameraPosition.zoom)
-            val wtflayout = findViewById<LinearLayout>(R.id.wtflayout)
-            val width = wtflayout.width.toDouble()
-            val height = wtflayout.height.toDouble()
-            viewModel.geoQuery.value?.setLocation(
-                GeoLocation(latLng.latitude, latLng.longitude),
-                Math.sqrt(width * width + height * height) * metersPerPx / 1000
-            )
+            onMapMoved(gmap)
         }
         viewModel.mClusterManager.value = ClusterManager(this, gmap)
         viewModel.mClusterManager.value!!.setRenderer(
@@ -198,6 +190,25 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
             }
+        }
+    }
+
+
+    fun onMapMoved(gmap: GoogleMap?) {
+        val latLng = gmap!!.cameraPosition.target
+        val metersPerPx: Double =
+            1 / viewModel.getPixelsPerMeter(latLng.latitude, gmap.cameraPosition.zoom)
+        val width = Resources.getSystem().displayMetrics.widthPixels.toDouble()
+        val height = Resources.getSystem().displayMetrics.heightPixels.toDouble()
+        Log.d("MapInfo","Current zoom level: " + gmap.cameraPosition.zoom)
+        if (gmap.cameraPosition.zoom < 14.0) {
+            zoomMessage.visibility = View.VISIBLE
+        } else {
+            zoomMessage.visibility = View.GONE
+            viewModel.geoQuery.value?.setLocation(
+                GeoLocation(latLng.latitude, latLng.longitude),
+                Math.sqrt(width * width + height * height) * metersPerPx / 1000
+            )
         }
     }
 

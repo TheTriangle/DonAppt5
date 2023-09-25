@@ -1,14 +1,16 @@
 package com.example.donappt5.viewmodels
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.os.Looper
 import android.util.Log
+import android.widget.LinearLayout
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.donappt5.data.model.Charity.Companion.toCharity
+import com.example.donappt5.R
 import com.example.donappt5.data.model.MyClusterItem
-import com.example.donappt5.data.services.FirestoreService
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.android.clustering.ClusterManager
@@ -81,13 +83,9 @@ class CharitiesMapViewModel() : ViewModel() {
                 )
                 if (!loadedchars!!.contains(key)) {
                     loadedchars!!.add(key)
-                    FirestoreService.getCharityData(key)?.addOnSuccessListener {
-                        if (it != null) {
-                            val offsetItem =
-                                MyClusterItem(location.latitude, location.longitude, it.toCharity()?.name, "snippet", it.toCharity()?.firestoreID)
-                            mClusterManager.value?.addItem(offsetItem)
-                        }
-                    }
+                    val offsetItem =
+                        MyClusterItem(location.latitude, location.longitude, key, "snippet", key)
+                    mClusterManager.value?.addItem(offsetItem)
                 }
             }
 
