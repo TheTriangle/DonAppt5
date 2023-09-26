@@ -66,20 +66,19 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite:2.5.0'
 
     implementation 'com.google.firebase:firebase-messaging:23.1.2'
-    implementation "com.stripe:stripe-android:15.1.0"
 
     implementation 'androidx.preference:preference:1.2.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Java language implementation
 
-    implementation 'androidx.browser:browser:1.5.0'
+    //implementation 'androidx.browser:browser:1.5.0'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    implementation "com.squareup.okhttp3:okhttp:4.8.1"
+    //implementation "com.squareup.okhttp3:okhttp:4.8.1"
 
     implementation 'com.google.firebase:firebase-database:20.1.0'
     implementation 'com.google.firebase:firebase-firestore:24.4.4'
@@ -94,23 +93,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.android.support:design:33.0.0'
     implementation 'com.android.support:support-v4:33.0.0'
     implementation 'com.android.support:appcompat-v7:33.0.0'
-    implementation 'com.facebook.android:facebook-android-sdk:6.3.0'
-
 
     implementation 'com.facebook.android:facebook-core:6.3.0'
     implementation 'com.facebook.android:facebook-login:6.3.0'
-    implementation 'com.facebook.android:facebook-share:6.3.0'
-    implementation 'com.facebook.android:facebook-places:6.3.0'
-    implementation 'com.facebook.android:facebook-messenger:6.3.0'
-    implementation 'com.facebook.android:facebook-applinks:6.3.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.8.1'
-
-
-    implementation 'org.apache.httpcomponents:httpcore:4.4.13'
 
     implementation('com.mikepenz.materialdrawer:library:2.9.8@aar') {
         transitive = true

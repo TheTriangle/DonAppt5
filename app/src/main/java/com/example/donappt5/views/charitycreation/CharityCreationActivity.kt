@@ -354,42 +354,6 @@ class CharityCreationActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        Log.i("ProgressTracker", "position a")
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val itemId = item.itemId
-        when (itemId) {
-            android.R.id.home -> {
-                binding.activityCharitycreation.openDrawer(GravityCompat.START)
-                return true // manage other entries if you have it ...
-            }
-            R.id.action_search -> {
-                Toast.makeText(
-                    this@CharityCreationActivity,
-                    "Menu action clicked",
-                    Toast.LENGTH_LONG
-                ).show()
-                val colref = FirebaseFirestore.getInstance().collection("userlocations")
-                val geoFirestore = GeoFire(colref)
-                val creatingtest = "Doc" + Random().nextInt()
-                val docref = FirebaseFirestore.getInstance().collection("userlocations")
-                    .document(creatingtest)
-                val nameMap = HashMap<String, Any>()
-                viewModel.creatingChar?.name?.let { nameMap.put("name", it) }
-                docref.set(nameMap)
-                geoFirestore.setLocation(creatingtest, GeoLocation(55.8800407, 36.5754417))
-                Log.d("geoquery", "setting$creatingtest")
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,

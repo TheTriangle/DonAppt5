@@ -115,14 +115,6 @@ class ProfileActivity : AppCompatActivity() {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        Log.i("ProgressTracker", "position a")
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-
     fun requestNameChange() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Title")
