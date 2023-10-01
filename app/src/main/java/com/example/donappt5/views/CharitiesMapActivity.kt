@@ -5,13 +5,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,8 +19,8 @@ import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.model.Charity.Companion.toCharity
 import com.example.donappt5.data.model.MyClusterItem
 import com.example.donappt5.data.services.FirestoreService
-import com.example.donappt5.util.MyClusterRenderer
-import com.example.donappt5.util.MyGlobals
+import com.example.donappt5.data.util.MyClusterRenderer
+import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.viewmodels.CharitiesMapViewModel
 import com.example.donappt5.views.charitydescription.CharityActivity
 import com.google.android.gms.location.*
@@ -36,7 +33,6 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.maps.android.clustering.ClusterManager
-import com.koalap.geofirestore.GeoLocation
 
 class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var mapView: MapView
@@ -63,6 +59,7 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 mLocation!!.position = viewModel.location.value!!
             }
         }
+
         getLastLocation()
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {
@@ -96,7 +93,6 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_ID) {
             if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Granted. Start getting the location information
                 getLastLocation()
             }
         }
@@ -149,7 +145,7 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     var clickedCharity: Charity? = null
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viewModel.location.value!!, 10f))
-        mLocation = googleMap.addMarker(MarkerOptions().position(viewModel.location.value!!).title("Marker"))
+        mLocation = googleMap.addMarker(MarkerOptions().position(viewModel.location.value!!).title("Your location"))
         if (mLocation == null) return
         mLocation!!.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
         mLocation!!.zIndex = 1000f
@@ -160,16 +156,18 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 this, R.raw.map_style
             )
         )
-        gmap!!.setOnCameraMoveListener {
-            onMapMoved(gmap)
+
+        gmap!!.setOnCameraChangeListener {
+            viewModel.onMapMoved(gmap)
+            viewModel.mClusterManager.value?.onCameraIdle()
         }
+
         viewModel.mClusterManager.value = ClusterManager(this, gmap)
-        viewModel.mClusterManager.value!!.setRenderer(
-            MyClusterRenderer(
-                this, gmap,
-                viewModel.mClusterManager.value
-            )
+        viewModel.mClusterManager.value!!.renderer = MyClusterRenderer(
+            this, gmap,
+            viewModel.mClusterManager.value
         )
+
         gmap!!.setOnCameraIdleListener(viewModel.mClusterManager.value)
         gmap!!.setOnMarkerClickListener(viewModel.mClusterManager.value)
 
@@ -190,25 +188,6 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
             }
-        }
-    }
-
-
-    fun onMapMoved(gmap: GoogleMap?) {
-        val latLng = gmap!!.cameraPosition.target
-        val metersPerPx: Double =
-            1 / viewModel.getPixelsPerMeter(latLng.latitude, gmap.cameraPosition.zoom)
-        val width = Resources.getSystem().displayMetrics.widthPixels.toDouble()
-        val height = Resources.getSystem().displayMetrics.heightPixels.toDouble()
-        Log.d("MapInfo","Current zoom level: " + gmap.cameraPosition.zoom)
-        if (gmap.cameraPosition.zoom < 14.0) {
-            zoomMessage.visibility = View.VISIBLE
-        } else {
-            zoomMessage.visibility = View.GONE
-            viewModel.geoQuery.value?.setLocation(
-                GeoLocation(latLng.latitude, latLng.longitude),
-                Math.sqrt(width * width + height * height) * metersPerPx / 1000
-            )
         }
     }
 

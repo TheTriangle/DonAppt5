@@ -8,7 +8,7 @@ import com.example.donappt5.data.model.Charity.Companion.toCharity
 import com.example.donappt5.data.model.SearchContext
 import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.data.util.Response
-import com.example.donappt5.util.Util
+import com.example.donappt5.data.util.Util
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot

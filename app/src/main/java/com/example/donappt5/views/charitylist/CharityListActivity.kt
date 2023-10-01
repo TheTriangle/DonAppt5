@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +24,8 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.donappt5.R
 import com.example.donappt5.data.model.Charity
-import com.example.donappt5.util.MyGlobals
-import com.example.donappt5.util.Util
+import com.example.donappt5.data.util.MyGlobals
+import com.example.donappt5.data.util.Util
 import com.example.donappt5.viewmodels.CharityListViewModel
 import com.example.donappt5.viewmodels.ProgramEntryViewModel
 import com.example.donappt5.views.adapters.CharityAdapter
@@ -34,8 +33,6 @@ import com.example.donappt5.views.charitycreation.popups.ActivityConfirm
 import com.example.donappt5.views.charitycreation.popups.LocatorActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.DocumentSnapshot
-import com.koalap.geofirestore.GeoQuery
 
 
 //import com.google.firebase.analytics.FirebaseAnalytics;

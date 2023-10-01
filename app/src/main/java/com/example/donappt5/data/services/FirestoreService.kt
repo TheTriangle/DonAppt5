@@ -7,19 +7,35 @@ import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.model.Charity.Companion.toCharity
 import com.example.donappt5.data.model.SearchContext
 import com.example.donappt5.data.model.User
+import com.example.donappt5.data.util.Util
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.AggregateQuery
+import com.google.firebase.firestore.AggregateQuerySnapshot
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.koalap.geofirestore.GeoFire
-import com.koalap.geofirestore.GeoLocation
 
 object FirestoreService {
     private const val TAG = "FirestoreService"
+
+    fun getLocationAfter(geohash: String): Task<QuerySnapshot?> {
+        val fullgeohash = geohash + "0".repeat(10 - geohash.length)
+
+        val db = FirebaseFirestore.getInstance()
+
+        return db.collection("charitylocations")
+            .orderBy("g")
+            .startAfter(fullgeohash)
+            .limit(1)
+            .get()
+    }
 
     fun getCharityData(firestoreID: String): Task<DocumentSnapshot?>? {
         val db = FirebaseFirestore.getInstance()
@@ -170,15 +186,30 @@ object FirestoreService {
     }
 
     fun setCharityLocation(charityId: String, location: GeoLocation) {
-        val collectionReference = FirebaseFirestore.getInstance().collection("charitylocations")
-        val creatingLocation: Map<String, Any> = java.util.HashMap()
-        collectionReference.document(charityId).set(creatingLocation)
+        val db = FirebaseFirestore.getInstance()
 
-        val geoFirestore = GeoFire(collectionReference)
-        geoFirestore.setLocation(
-            charityId,
-            location
-        )
+        val locationMap: MutableMap<String, Any> = java.util.HashMap()
+        locationMap["g"] = GeoFireUtils.getGeoHashForLocation(location)
+        locationMap["l"] = arrayOf(location.latitude, location.longitude)
+        locationMap["charityId"] = charityId
+
+        db.collection("charitylocations")
+            .document(Util.getRandomString(28))
+            .set(locationMap)
+    }
+
+    fun setLocationOfInterest(userId: String, location: GeoLocation) {
+        val db = FirebaseFirestore.getInstance()
+
+        val locationMap: MutableMap<String, Any> = java.util.HashMap()
+        locationMap["g"] = GeoFireUtils.getGeoHashForLocation(location)
+        locationMap["l"] = arrayOf(location.latitude, location.longitude)
+
+        db.collection("users")
+            .document(userId)
+            .collection("locations")
+            .document(Util.getRandomString(28))
+            .set(locationMap)
     }
 
     fun setUser(user: User) {
@@ -230,5 +261,26 @@ object FirestoreService {
     fun checkName(name: String, currentName: String? = null): Task<QuerySnapshot> {
         val db = FirebaseFirestore.getInstance()
         return db.collection("charities").whereEqualTo("name", name).get()
+    }
+
+    fun getGeoQueryCount(startHash: String, endHash: String): Task<AggregateQuerySnapshot> {
+        val db = FirebaseFirestore.getInstance()
+
+        val q = db.collection("charitylocations")
+            .orderBy("g")
+            .startAt(startHash)
+            .endAt(endHash)
+            .count()
+        return q.get(AggregateSource.SERVER)
+    }
+
+    fun getGeoQueryResults(startHash: String, endHash: String): Task<QuerySnapshot> {
+        val db = FirebaseFirestore.getInstance()
+
+        val q = db.collection("charitylocations")
+            .orderBy("g")
+            .startAt(startHash)
+            .endAt(endHash)
+        return q.get()
     }
 }
