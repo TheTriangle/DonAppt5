@@ -28,15 +28,12 @@ class MyClusterRenderer(
     ) {
         if (item.isCluster) {
             val clusterIcon = BitmapDescriptorFactory
-                .fromBitmap(createMarkerImage(100, 100, item.itemsAmount.toString()))
+                .fromBitmap(createMarkerImage(120, 120, item.itemsAmount.toString()))
             markerOptions.icon(clusterIcon)
         } else {
             val markerIcon =
                 BitmapDescriptorFactory.defaultMarker(0.0f) //TODO stylize to black
             markerOptions.icon(markerIcon)
-            //val clusterIcon = BitmapDescriptorFactory
-            //    .fromBitmap(createMarkerImage(item.itemsAmount, item.itemsAmount, item.itemsAmount.toString()))
-            //markerOptions.icon(clusterIcon)
         }
     }
 
@@ -49,7 +46,7 @@ class MyClusterRenderer(
         val paint = Paint()
         paint.setColor(Color.WHITE)
         paint.setTextSize(42F)
-        canvas.drawText(name, 15f, height.toFloat()/2 + 15, paint)
+        canvas.drawText(name, 10f, height.toFloat()/2 + 15, paint)
         return bitmap
     }
 }

@@ -158,7 +158,7 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
         )
 
         gmap!!.setOnCameraChangeListener {
-            viewModel.onMapMoved(gmap)
+            gmap?.let { viewModel.onMapMoved(it) }
             viewModel.mClusterManager.value?.onCameraIdle()
         }
 

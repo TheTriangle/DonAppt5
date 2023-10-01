@@ -30,4 +30,17 @@ class MyClusterItem(
     override fun getSnippet(): String {
         return mSnippet
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (isCluster) return this === other
+        if (other is MyClusterItem) {
+            return id == other.id
+        }
+        return false
+    }
+
+    override fun hashCode(): Int {
+        return if (isCluster) super.hashCode()
+        else id.hashCode()
+    }
 }

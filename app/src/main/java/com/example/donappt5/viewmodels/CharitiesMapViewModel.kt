@@ -21,6 +21,7 @@ import com.google.firebase.firestore.AggregateQuerySnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.maps.android.clustering.ClusterManager
 import java.lang.Double.max
+import kotlin.math.abs
 
 
 class CharitiesMapViewModel() : ViewModel() {
@@ -31,6 +32,9 @@ class CharitiesMapViewModel() : ViewModel() {
     var latitude = MutableLiveData<Double>()
     var longitude = MutableLiveData<Double>()
     var mFusedLocationClient = MutableLiveData<FusedLocationProviderClient>()
+    var previousZoom = 0.0
+    var clustersCollection = hashSetOf<MyClusterItem?>()
+    var markerCollection = hashSetOf<MyClusterItem?>()
 
     init {
         latitude.value = 1000.0
@@ -47,9 +51,32 @@ class CharitiesMapViewModel() : ViewModel() {
         return pixelsPerTile / metersPerTile
     }
 
-    fun onMapMoved(gmap: GoogleMap?) {
-        mClusterManager.value?.clearItems()
-        val curpos = gmap!!.cameraPosition.target
+    fun getShownMarkersCount(gmap: GoogleMap?): Int {
+        var ans = 0
+        if (mClusterManager.value?.markerCollection == null) {
+            return 0
+        }
+
+        for (item in clustersCollection) {
+            if (item?.position?.let { gmap?.projection?.visibleRegion?.latLngBounds?.contains(it) } == true) {
+                ans++
+            }
+        }
+        return ans
+    }
+
+    fun clearClusters() {
+        mClusterManager.value?.removeItems(clustersCollection)
+        clustersCollection.clear()
+    }
+
+    fun onMapMoved(gmap: GoogleMap) {
+        if (abs(gmap.cameraPosition.zoom - previousZoom) > 0.0001) {
+            clearClusters()
+        }
+
+        if (getShownMarkersCount(gmap) >= 3) return
+        val curpos = gmap.cameraPosition.target
         val metersPerPx: Double =
             1 / getPixelsPerMeter(curpos.latitude, gmap.cameraPosition.zoom)
         val width = Resources.getSystem().displayMetrics.widthPixels.toDouble()
@@ -74,12 +101,6 @@ class CharitiesMapViewModel() : ViewModel() {
 
     fun parseRegion(center: LatLng, radius: Double) {
         val centerGeoLocation = GeoLocation(center.latitude, center.longitude)
-        /* mClusterManager.value?.addItem(
-            MyClusterItem(center.latitude, center.longitude,
-                "Cluster of ${0} charities",
-                "Zoom in to see individual charities",
-                "cluster${0}", false, Resources.getSystem().displayMetrics.widthPixels)) // */
-
 
         val bounds = GeoFireUtils.getGeoHashQueryBounds(centerGeoLocation, radius)
         for (bound in bounds) {
@@ -100,11 +121,12 @@ class CharitiesMapViewModel() : ViewModel() {
                         .result?.documents?.get(0)?.get("l") as ArrayList<Double>
 
                     Log.d("MapInfo", "Populate map: cluster - " + querySnapshot.count + " " + boundMiddle)
-                    mClusterManager.value?.addItem(
-                        MyClusterItem(boundMiddle[0], boundMiddle[1],
-                            "Cluster of ${querySnapshot.count} charities",
-                            "Zoom in to see individual charities",
-                            "cluster${querySnapshot.count}", true, querySnapshot.count.toInt())) //TODO delete this clusted on move
+                    val newItem = MyClusterItem(boundMiddle[0], boundMiddle[1],
+                        "Cluster of ${querySnapshot.count} charities",
+                        "Zoom in to see individual charities",
+                        "cluster${querySnapshot.count}", true, querySnapshot.count.toInt())
+                    clustersCollection.add(newItem)
+                    mClusterManager.value?.addItem(newItem)
                     mClusterManager.value?.cluster()
                 }
         } else {
@@ -121,10 +143,14 @@ class CharitiesMapViewModel() : ViewModel() {
                 val coords = doc.get("l") as ArrayList<Double>
                 Log.d("MapInfo", "Populate map: " + doc.id + " " + doc.get("l"))
                 doc.getString("charityid")?.let {
-                    mClusterManager.value?.addItem(
-                        MyClusterItem(coords[0], coords[1], it, it,
-                            it, false, task.result.count()))
+                    val newItem = MyClusterItem(coords[0], coords[1], it, it,
+                            it, false, task.result.count())
+                    if (!markerCollection.contains(newItem)) {
+                        markerCollection.add(newItem)
+                        mClusterManager.value?.addItem(newItem)
                     }
+                }
+                mClusterManager.value?.cluster()
             }
         }
     }
