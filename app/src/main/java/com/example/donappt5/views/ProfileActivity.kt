@@ -5,8 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -15,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.donappt5.R
 import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.data.util.Status
-import com.example.donappt5.util.MyGlobals
-import com.example.donappt5.util.Util
+import com.example.donappt5.data.util.MyGlobals
+import com.example.donappt5.data.util.Util
 import com.example.donappt5.viewmodels.ProfileViewModel
 import com.example.donappt5.views.charitylist.CharityListActivity
 import com.example.donappt5.views.onboarding.OnBoardingActivity
@@ -25,7 +23,6 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
 class ProfileActivity : AppCompatActivity() {

@@ -13,12 +13,9 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -31,11 +28,6 @@ import com.example.donappt5.viewmodels.CharityEditViewModel
 import com.example.donappt5.views.charitycreation.popups.ActivityConfirm
 import com.example.donappt5.views.charitycreation.popups.LocatorActivity
 import com.example.donappt5.views.charitycreation.popups.TagsActivity
-import com.google.firebase.firestore.FirebaseFirestore
-import com.koalap.geofirestore.GeoFire
-import com.koalap.geofirestore.GeoLocation
-import java.util.*
-import kotlin.collections.HashMap
 
 class CharityCreationActivity : AppCompatActivity() {
     lateinit var context: Context

@@ -7,14 +7,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.views.charitycreation.popups.ActivityConfirm
+import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.messaging.FirebaseMessaging
-import com.koalap.geofirestore.GeoFire
-import com.koalap.geofirestore.GeoLocation
 
 class ProgramEntryViewModel : ViewModel() {
     var userHasLocationsOfInterest = MutableLiveData<Boolean>()
@@ -51,7 +51,7 @@ class ProgramEntryViewModel : ViewModel() {
                     )
                     return@addOnCompleteListener
                 }
-                // Get new Instance ID token
+
                 val token = task.result
                 Log.d("gettingdevicetokem", token!!)
                 val db = FirebaseFirestore.getInstance()
@@ -72,36 +72,9 @@ class ProgramEntryViewModel : ViewModel() {
         val longitude = data.getDoubleExtra("longitude", -1000.0)
         if (coordsgiven && latitude > -900) {
             val user = FirebaseAuth.getInstance().currentUser
-            val db = FirebaseFirestore.getInstance()
-            val location: MutableMap<String, Any> = HashMap()
-            location["latitude"] = latitude
-            location["longitude"] = longitude
-            db.collection("users").document(user!!.uid).collection("locations")
-                .document("FirstLocation").set(location)
-                .addOnSuccessListener { aVoid: Void? ->
-                    val colref =
-                        FirebaseFirestore.getInstance().collection("users").document(
-                            user.uid
-                        ).collection("locations")
-                    val geoFirestore =
-                        GeoFire(colref)
-                    geoFirestore.setLocation(
-                        "FirstLocation",
-                        GeoLocation(latitude, longitude)
-                    )
-                }
-            db.collection("userlocations").document(user.uid).set(location)
-                .addOnSuccessListener { aVoid: Void? ->
-                    val colref =
-                        FirebaseFirestore.getInstance().collection("userlocations")
-                    val geoFirestore =
-                        GeoFire(colref)
-                    geoFirestore.setLocation(
-                        user.uid,
-                        GeoLocation(latitude, longitude)
-                    )
-                }
-            db.collection("users").document(user.uid).update(location)
+            user?.uid?.let {
+                FirestoreService.setLocationOfInterest(user.uid, GeoLocation(latitude, longitude))
+            }
         }
     }
 }

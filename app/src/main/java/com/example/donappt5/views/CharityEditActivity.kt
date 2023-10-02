@@ -7,15 +7,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.donappt5.views.charitycreation.CharityCreateDesc
 import com.example.donappt5.views.charitycreation.CharityCreatePaymentCredentials
@@ -24,20 +20,9 @@ import com.example.donappt5.views.charitycreation.popups.TagsActivity
 import com.example.donappt5.R
 import com.example.donappt5.databinding.ActivityCharityeditBinding
 import com.example.donappt5.data.model.Charity
-import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.data.util.Status
-import com.example.donappt5.util.MyGlobals
-import com.example.donappt5.util.Util
+import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.viewmodels.CharityEditViewModel
-import com.example.donappt5.viewmodels.OnBoardingViewModel
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.storage.FirebaseStorage
-import com.koalap.geofirestore.GeoFire
-import com.koalap.geofirestore.GeoLocation
-import com.koalap.geofirestore.GeoQueryEventListener
 import com.squareup.picasso.Picasso
 
 class CharityEditActivity : AppCompatActivity() {

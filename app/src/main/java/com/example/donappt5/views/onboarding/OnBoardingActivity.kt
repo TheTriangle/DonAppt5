@@ -1,6 +1,5 @@
 package com.example.donappt5.views.onboarding
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,15 +11,9 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.donappt5.databinding.ActivityOnBoardingBinding
-import com.example.donappt5.data.model.OnBoardingDonationRecord
 import com.example.donappt5.data.util.Status
-import com.example.donappt5.util.MyGlobals
 import com.example.donappt5.viewmodels.OnBoardingViewModel
 import com.example.donappt5.views.charitylist.CharityListActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
