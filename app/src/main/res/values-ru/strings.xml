@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DonAppt5</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="title_activity_charitymap">Карта</string>
+    <string name="qiwi_payment">Ссылка на оплату qiwi</string>
+    <string name="qiwi_getting_url_hint_title">Как получить личную ссылку для перевода?</string>
+    <string name="qiwi_getting_url_hint">Необходимо зарегистроваться по адресу: <a href="https://qiwi.com/p2p-admin/transfers/link">https://qiwi.com/p2p-admin/transfers/link</a> и вставить сренерированную ссылку в поле ниже</string>
+    <string name="ok">Ок</string>
+    <string name="no_payment_credentials_message">Организация пока не указала реквизиты для оплаты</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="confirm_changes">Подтвердить</string>
+    <string name="delete_organisation">Удалить организацию</string>
+    <string name="edit_location">Изменить геолокацию</string>
+    <string name="edit_tags">Изменить тэги</string>
+    <string name="charities_list">Лента</string>
+    <string name="explore">Обзор</string>
+    <string name="map">Карта</string>
+    <string name="donations">Пожертвования</string>
+    <string name="profile">Профиль</string>
+    <string name="user_name_is_not_set">Имя пользователя не введено</string>
+    <string name="education_tag">образование</string>
+    <string name="art_tag">искусство</string>
+    <string name="science_research_tag">наука и исследования</string>
+    <string name="kids_tag">дети</string>
+    <string name="poverty_tag">борьба с бедностью</string>
+    <string name="healthcare_tag">здравоохранение</string>
+    <string name="search_bar_hint">Поиск</string>
+    <string name="creation_confirm_tags">выбрать тэги</string>
+    <string name="charity_name_check">проверить, существует ли организация с таким именем</string>
+    <string name="create_charity">Создать</string>
+    <string name="zoom_closer_message">Приблизьте, чтобы загрузить организации</string>
+    <string name="donate_button">Пожертвовать</string>
+    <string name="charities_list_page">Все организации</string>
+    <string name="recommended_charities_page">Рекомендации</string>
+    <string name="provide_charity_locations">Укажите, где вы находитесь. Это поможет вашему распространению в сообществе. Нажмите на маркер и перетащите его</string>
+    <string name="skip_step">Пропустить этот шаг</string>
+    <string name="provide_location">Мы находимся здесь</string>
+    <string name="load_profile_image">Загрузить фото профиля</string>
+    <string name="launch_onboarding">Пройти опрос</string>
+    <string name="goto_favorites">Избранное</string>
+    <string name="change_name">Изменить имя</string>
+    <string name="log_out">Выйти</string>
+    <string name="edit_name_hint">Изменить имя</string>
+    <string name="charity_description_hint">Опишите вашу организацию</string>
+    <string name="charity_name_hint">Название организации</string>
+    <string name="donation_size_hint">Сумма пожертвования</string>
+    <string name="search_hint">Поиск</string>
+</resources>

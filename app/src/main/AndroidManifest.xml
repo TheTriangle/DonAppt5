@@ -59,9 +59,6 @@
             android:name=".views.charitycreation.popups.TagsActivity"
             android:label="tags" />
         <activity
-            android:name=".views.SettingsActivity"
-            android:label="@string/title_activity_settings" />
-        <activity
             android:name=".views.CharitiesMapActivity"
             android:label="@string/title_activity_charitymap" />
 

@@ -1,60 +1,55 @@
 <resources>
     <string name="app_name">DonAppt5</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="action_settings">Settings</string>
-    <string name="drawer_item_home">Home</string>
-    <string name="drawer_item_free_play">Free Play</string>
-    <string name="drawer_item_custom">Custom</string>
-    <string name="drawer_item_settings">Settings</string>
-    <string name="drawer_item_help">Help</string>
-    <string name="drawer_item_open_source">Open Source</string>
-    <string name="drawer_item_contact">Contact</string>
-    <string name="Open">Open?</string>
-    <string name="Close">Close?</string>
 
-    <string name="facebook_app_id">198111061632211</string>
-    <string name="facebook_application_id">198111061632211</string>
+    <string name="facebook_app_id" translatable="false">198111061632211</string>
+    <string name="facebook_application_id" translatable="false">198111061632211</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb198111061632211</string>
     <string name="title_activity_settings">Settings</string>
 
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
-
-    <string name="wifi_title">Wi-Fi</string>
-    <string name="wifi_summary">turn on/off WiFi</string>
-    <string name="hints_title">Hints</string>
-    <string name="hints_summary">Show hints</string>
     <string name="title_activity_charitymap">Map</string>
-    <string name="search_hint">search hint</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="qiwi_payment">Ссылка на оплату qiwi</string>
-    <string name="qiwi_getting_url_hint_title">Как получить личную ссылку для перевода?</string>
-    <string name="qiwi_getting_url_hint">Необходимо зарегистророваться по адресу: <a href="https://qiwi.com/p2p-admin/transfers/link">https://qiwi.com/p2p-admin/transfers/link</a> и вставить сренерированную ссылку в поле ниже</string>
-    <string name="ok">Oк</string>
-    <string name="no_payment_credentials_message">Организация пока не указала реквизиты для оплаты</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="confirm_changes">Confirm Changes</string>
     <string name="delete_organisation">Delete organisation</string>
     <string name="edit_location">Edit Location</string>
     <string name="edit_tags">Edit tags</string>
-    <string name="charities_line">Лента</string>
     <string name="explore">explore</string>
     <string name="map">map</string>
     <string name="donations">donations</string>
     <string name="profile">profile</string>
     <string name="user_name_is_not_set">User name is not set</string>
+    <string name="education_tag">education</string>
+    <string name="art_tag">art</string>
+    <string name="science_research_tag">science and research</string>
+    <string name="kids_tag">kids</string>
+    <string name="poverty_tag">poverty</string>
+    <string name="healthcare_tag">healthcare</string>
+    <string name="search_bar_hint">Search</string>
+    <string name="creation_confirm_tags">set selected tags</string>
+    <string name="charity_name_check">click the button to check if charity with this name already exists</string>
+    <string name="create_charity">Create</string>
+    <string name="zoom_closer_message">Zoom in closer to load charities</string>
+    <string name="donate_button">Donate</string>
+    <string name="charities_list_page">All charities</string>
+    <string name="recommended_charities_page">Recommended charities</string>
+    <string name="provide_charity_locations">Give us location of your charity, although not mandatory, it will help raise awareness in your local community. Hold on the marker and drag it.</string>
+    <string name="skip_step">Skip this step</string>
+    <string name="provide_location">We are here</string>
+    <string name="load_profile_image">Load profile image</string>
+    <string name="launch_onboarding">Go through onboarding</string>
+    <string name="goto_favorites">Favorites</string>
+    <string name="change_name">Change name</string>
+    <string name="log_out">Log Out</string>
+    <string name="edit_name_hint">Edit Name</string>
+    <string name="charity_description_hint">Enter full description of your charity.</string>
+    <string name="charity_name_hint">Organization name</string>
+    <string name="donation_size_hint">Donation size</string>
+    <string name="search_hint">Search</string>
+    <string name="qiwi_payment">Qiwi payment link</string>
+    <string name="qiwi_getting_url_hint_title">"How to get a payment link? "</string>
+    <string name="qiwi_getting_url_hint">You need to register at <a href="https://qiwi.com/p2p-admin/transfers/link">https://qiwi.com/p2p-admin/transfers/link</a> and paste the generated link below</string>
+    <string name="ok">Ok</string>
+    <string name="no_payment_credentials_message">Charity has not yet provided payment credentials</string>
+    <string name="charities_list">List</string>
 </resources>

@@ -58,7 +58,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:text="TextView"
                         android:textColor="@android:color/black" />
 
                     <ImageView
@@ -97,14 +96,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Donate" />
+                        android:text="@string/donate_button" />
 
                     <TextView
                         android:id="@+id/tvTrustRating"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="TextView" />
+                        android:layout_weight="1" />
 
                 </LinearLayout>
             </LinearLayout>

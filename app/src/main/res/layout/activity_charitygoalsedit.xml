@@ -11,8 +11,7 @@
         android:layout_height="match_parent"
         android:layout_weight="10"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="textPersonName"/>
 
     <ProgressBar
         android:id="@+id/pbProgress"
@@ -30,7 +29,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="textPersonName" />
 
 </LinearLayout>

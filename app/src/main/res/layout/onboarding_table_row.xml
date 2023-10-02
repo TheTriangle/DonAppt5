@@ -6,18 +6,16 @@
 
     <EditText
         android:id="@+id/etCharityName"
-        android:text=""
         android:layout_width="0dp"
         android:layout_weight="1"
         android:singleLine="true"
-        android:hint="Organization name"/>
+        android:hint="@string/charity_name_hint"/>
     <EditText
         android:id="@+id/etDonation"
-        android:text=""
         android:inputType="numberDecimal"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:hint="Monthly donate(opt)"/>
+        android:hint="@string/donation_size_hint"/>
     <ImageButton
         android:id="@+id/btnDeleteRow"
         android:layout_width="40dp"

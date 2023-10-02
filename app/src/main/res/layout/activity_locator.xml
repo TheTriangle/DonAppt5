@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10"
-            android:text="Give us location of your charity, although not mandatory, it will help raise awareness in your local community. Hold on the marker and drag it."
+            android:text="@string/provide_charity_locations"
             android:textSize="12sp" />
 
         <ImageButton
@@ -53,14 +53,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
-                android:text="Skip this step" />
+                android:text="@string/skip_step" />
 
             <Button
                 android:id="@+id/btnGiveGeo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
-                android:text="We are here" />
+                android:text="@string/provide_location" />
         </LinearLayout>
     </LinearLayout>
 
