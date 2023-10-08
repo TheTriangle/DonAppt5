@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModel
 import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.data.util.Response
-import com.example.donappt5.util.Event
-import com.example.donappt5.util.Util
+import com.example.donappt5.data.util.Event
+import com.example.donappt5.data.util.Util
 import com.example.donappt5.views.charitycreation.CharityCreateDesc
 import com.example.donappt5.views.charitycreation.CharityCreatePaymentCredentials
 import com.example.donappt5.views.charitycreation.CharityCreationActivity.Companion.CART
@@ -21,6 +21,7 @@ import com.example.donappt5.views.charitycreation.CharityCreationActivity.Compan
 import com.example.donappt5.views.charitycreation.CharityCreationActivity.Companion.CPOV
 import com.example.donappt5.views.charitycreation.CharityCreationActivity.Companion.CSCI
 import com.example.donappt5.views.charitycreation.CharityCreationActivity.Companion.TAGS_COUNT
+import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.common.primitives.Ints
 import com.google.firebase.auth.FirebaseAuth
@@ -28,7 +29,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.koalap.geofirestore.GeoLocation
 
 class CharityEditViewModel : ViewModel() {
     lateinit var charity: Charity
