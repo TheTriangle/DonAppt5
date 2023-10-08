@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.PERMISSION_ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -25,6 +24,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".views.onboarding.OnBoardingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".views.OwnedCharityListActivity"

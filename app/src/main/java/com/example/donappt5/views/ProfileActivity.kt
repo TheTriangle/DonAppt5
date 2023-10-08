@@ -5,8 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -15,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.donappt5.R
 import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.data.util.Status
+import com.example.donappt5.databinding.LayoutProfileBinding
 import com.example.donappt5.util.MyGlobals
 import com.example.donappt5.util.Util
 import com.example.donappt5.viewmodels.ProfileViewModel
@@ -23,33 +22,25 @@ import com.example.donappt5.views.onboarding.OnBoardingActivity
 import com.facebook.login.LoginManager
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.tasks.Task
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
 class ProfileActivity : AppCompatActivity() {
-    lateinit var btnLogOut: Button
     lateinit var ctx: Context
-    lateinit var btnLoadProfile: Button
-    lateinit var btnFavs: Button
-    lateinit var tvUserName: TextView
-    lateinit var btnChangeName: Button
     lateinit var viewModel: ProfileViewModel
-    var ivProfile: ImageView? = null
     var SELECT_PICTURE = 12341
-    var bottomNavigationView: BottomNavigationView? = null
+    private lateinit var binding: LayoutProfileBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_profile)
+        binding = LayoutProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
         ctx = this
-        btnChangeName = findViewById(R.id.btnChangeName)
-        btnChangeName.setOnClickListener { requestNameChange() }
-        btnLogOut = findViewById(R.id.btnLogOut)
+        binding.btnChangeName.setOnClickListener { requestNameChange() }
 
-        with(btnLogOut) {
+        with(binding.btnLogOut) {
             setOnClickListener { v: View? ->
                 LoginManager.getInstance().logOut()
                 AuthUI.getInstance()
@@ -63,19 +54,15 @@ class ProfileActivity : AppCompatActivity() {
                     }
             }
         }
-
-        ivProfile = findViewById(R.id.ivProfilePhoto)
-        tvUserName = findViewById(R.id.tvUserName)
-
         val user = FirebaseAuth.getInstance().currentUser
 
         viewModel.photourl.observe(this) {
             if (it.status == Status.SUCCESS) {
                 if (it.data != null) {
-                    Picasso.with(ctx).load(it.data).fit().into(ivProfile)
+                    Picasso.with(ctx).load(it.data).fit().into(binding.ivProfilePhoto)
                 } else {
                     if (user!!.photoUrl != null) {
-                        Picasso.with(ctx).load(user.photoUrl.toString()).fit().into(ivProfile)
+                        Picasso.with(ctx).load(user.photoUrl.toString()).fit().into(binding.ivProfilePhoto)
                     }
                 }
             }
@@ -83,13 +70,15 @@ class ProfileActivity : AppCompatActivity() {
 
         val llwithimage = findViewById<LinearLayout>(R.id.llImage)
         llwithimage.setOnClickListener { loadImage() }
-        btnLoadProfile = findViewById(R.id.btnLoadProfile)
-        btnLoadProfile.setOnClickListener { FirestoreService.uploadImage(viewModel.loadedUri) }
-        btnFavs = findViewById(R.id.btnFavs)
-        btnFavs.setOnClickListener { onFavsClick() }
 
-        bottomNavigationView = findViewById<View>(R.id.bottom_navigation) as BottomNavigationView
-        MyGlobals(ctx).setupBottomNavigation(ctx, this, bottomNavigationView!!)
+        binding.btnLoadProfile.setOnClickListener { FirestoreService.uploadImage(viewModel.loadedUri) }
+        binding.btnFavs.setOnClickListener { onFavsClick() }
+        binding.btnSettings.setOnClickListener {
+            val intent = Intent(ctx, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        MyGlobals(ctx).setupBottomNavigation(ctx, this, binding.bottomNavigation)
 
         val btnGoToOnboarding = findViewById<Button>(R.id.btnGoToOnboarding)
         btnGoToOnboarding.setOnClickListener {
@@ -123,7 +112,7 @@ class ProfileActivity : AppCompatActivity() {
         builder.setView(input)
         builder.setTitle("Enter your username")
         builder.setPositiveButton("OK") { _: DialogInterface?, _: Int ->
-            tvUserName.text = viewModel.updateUserName(input.text.toString())
+            binding.tvUserName.text = viewModel.updateUserName(input.text.toString())
         }
         builder.setNegativeButton(
             "Cancel"
@@ -140,8 +129,8 @@ class ProfileActivity : AppCompatActivity() {
             if (requestCode == SELECT_PICTURE) {
                 val selectedImageUri = data.data
                 if (null != selectedImageUri) {
-                    ivProfile!!.post {
-                        ivProfile!!.setImageURI(selectedImageUri)
+                    binding.ivProfilePhoto.post {
+                        binding.ivProfilePhoto.setImageURI(selectedImageUri)
                         viewModel.loadedUri = selectedImageUri
                     }
                 }

@@ -52,4 +52,8 @@
     <string name="ok">Ok</string>
     <string name="no_payment_credentials_message">Charity has not yet provided payment credentials</string>
     <string name="charities_list">List</string>
+    <string name="app_language">App language</string>
+    <string name="app_language_summary">Choose the language of the app</string>
+    <string name="preference_language">preference_language</string>
+    <string name="settings">Settings</string>
 </resources>
