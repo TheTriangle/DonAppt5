@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Zoom in closer to load charities"
+                android:text="@string/zoom_closer_message"
                 app:layout_constraintTop_toTopOf="@+id/map_container_layout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

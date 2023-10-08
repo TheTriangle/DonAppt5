@@ -51,7 +51,7 @@
                                 android:id="@+id/kidstv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="kids"
+                                android:text="@string/kids_tag"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +78,7 @@
                                 android:id="@+id/povtv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="poverty"
+                                android:text="@string/poverty_tag"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -105,7 +105,7 @@
                                 android:id="@+id/restv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="science and research"
+                                android:text="@string/science_research_tag"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -132,7 +132,7 @@
                                 android:id="@+id/arttv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="art"
+                                android:text="@string/art_tag"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -159,7 +159,7 @@
                                 android:id="@+id/heltv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="healthcare"
+                                android:text="@string/healthcare_tag"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -186,7 +186,7 @@
                                 android:id="@+id/edutv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="education"
+                                android:text="@string/education_tag"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />

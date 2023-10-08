@@ -20,7 +20,7 @@ import com.example.donappt5.data.util.Util
 import com.example.donappt5.viewmodels.CharityListViewModel
 import com.example.donappt5.views.charitydescription.CharityActivity
 
-class CharityListFragment(var fillingmode: Int) : Fragment() {
+class CharityListFragment(var fillingmode: Int = Util.FILLING_ALPHABET) : Fragment() {
     private lateinit var binding: FragmentCharityListBinding
     val viewModel: CharityListViewModel by activityViewModels()
     private lateinit var adapter: CharityAdapter

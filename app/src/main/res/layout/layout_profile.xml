@@ -52,7 +52,7 @@
                         android:id="@+id/btnLoadProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:text="Load progile image"
+                        android:text="@string/load_profile_image"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -61,16 +61,17 @@
                         android:id="@+id/btnGoToOnboarding"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Go through onboarding"
+                        android:text="@string/launch_onboarding"
                         app:layout_constraintBottom_toTopOf="@+id/btnFavs"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <Button
                         android:id="@+id/btnFavs"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Favorites"
+                        android:text="@string/goto_favorites"
                         app:layout_constraintBottom_toTopOf="@+id/btnLoadProfile"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -88,10 +89,21 @@
                         android:id="@+id/btnChangeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change name"
+                        android:text="@string/change_name"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
+
+                    <Button
+                        android:id="@+id/btnSettings"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:text="@string/settings"
+                        app:layout_constraintBottom_toTopOf="@+id/btnGoToOnboarding"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.488"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btnChangeName" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -108,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:text="Log Out" />
+                android:text="@string/log_out" />
 
         </LinearLayout>
         <com.google.android.material.bottomnavigation.BottomNavigationView

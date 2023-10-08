@@ -65,7 +65,6 @@ class MyGlobals     // constructor
             is CharityEditActivity -> { R.id.donations }
             is OwnedCharityListActivity -> { R.id.donations }
             is ProfileActivity -> { R.id.profile }
-            is SettingsActivity -> { R.id.profile }
             else -> R.id.charitylist
         }).isChecked = true
     }
