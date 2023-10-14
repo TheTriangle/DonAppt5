@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.donappt5.R
-import com.example.donappt5.views.adapters.CharityAdapter
+import com.example.donappt5.views.adapters.CharitiesAdapter
 import com.example.donappt5.databinding.FragmentCharityListBinding
 import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.util.ModelConfig
@@ -46,7 +46,7 @@ class CharityRecommendationsFragment : Fragment() {
 
     private fun setupView() {
         viewModel.adapter.value =
-            CharityAdapter(context, chars)
+            CharitiesAdapter(context, chars)
         binding.apply {
             lvMain.isClickable = true
             lvMain.adapter = viewModel.adapter.value

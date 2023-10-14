@@ -21,6 +21,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import java.util.Date
 
 object FirestoreService {
     private const val TAG = "FirestoreService"
@@ -282,5 +283,40 @@ object FirestoreService {
             .startAt(startHash)
             .endAt(endHash)
         return q.get()
+    }
+
+    fun getDonationsList(lastVisible: DocumentSnapshot?): Task<QuerySnapshot>? {
+        val db = FirebaseFirestore.getInstance()
+        val user = FirebaseAuth.getInstance().currentUser?: return null
+        val query = db.collection("donations").whereEqualTo("user", user.uid)
+        return if (lastVisible != null) {
+            query
+                .startAfter(lastVisible)
+                .limit(20)
+                .get()
+        } else {
+            query
+                .limit(20)
+                .get()
+        }
+    }
+
+    fun addDonationToHistory(amount: Double, currency: String, date: Date, charityId: String,
+                             charityName: String, campaignId: String?, campaignName: String?) {
+        val db = FirebaseFirestore.getInstance()
+
+        val donationMap: MutableMap<String, Any> =
+            java.util.HashMap()
+        val user = FirebaseAuth.getInstance().currentUser ?: return
+        donationMap["amount"] = amount
+        donationMap["currency"] = currency
+        donationMap["date"] = date
+        donationMap["charityid"] = charityId
+        donationMap["charityname"] = charityName
+        donationMap["user"] = user.uid
+        campaignId?.let { donationMap["campaignid"] = campaignId }
+        campaignName?.let { donationMap["campaignname"] = campaignName}
+        db.collection("donations").document(Util.getRandomString(28))
+            .set(donationMap)
     }
 }

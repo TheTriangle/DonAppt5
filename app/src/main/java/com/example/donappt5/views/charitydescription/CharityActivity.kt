@@ -18,6 +18,7 @@ import com.example.donappt5.data.util.Status
 import com.example.donappt5.databinding.ActivityCharitydescBinding
 import com.example.donappt5.viewmodels.CharityViewModel
 import com.example.donappt5.views.QiwiPaymentActivity
+import com.example.donappt5.views.charitydescription.popups.NoPaymentFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
 
@@ -121,11 +122,10 @@ class CharityActivity : AppCompatActivity() {
                     intent1.putExtra("qiwiPaymentUrl", viewModel.getCharity().value?.data?.paymentUrl)
                     startActivity(intent1)
                 } else {
-                    Toast.makeText(
-                        applicationContext,
-                        R.string.no_payment_credentials_message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    viewModel.getCharity().value?.data?.let {
+                        NoPaymentFragment(it.firestoreID, it.name, null, null)
+                            .show(supportFragmentManager, "NoPaymentSpecified")
+                    }
                 }
             }
             ivFavorite.setOnClickListener { viewModel.changeFav() }

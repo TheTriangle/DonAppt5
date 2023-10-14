@@ -5,13 +5,10 @@ import com.example.donappt5.R
 import com.google.firebase.firestore.DocumentSnapshot
 
 class Charity {
-    @kotlin.jvm.JvmField
     var image: Int = R.drawable.ic_launcher_foreground
 
-    @kotlin.jvm.JvmField
     var id: Int = 0
 
-    @kotlin.jvm.JvmField
     var trust: Float = 0.0f
 
     lateinit var firestoreID: String

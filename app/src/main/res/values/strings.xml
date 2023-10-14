@@ -52,8 +52,13 @@
     <string name="ok">Ok</string>
     <string name="no_payment_credentials_message">Charity has not yet provided payment credentials</string>
     <string name="charities_list">List</string>
+    <string name="thank_you_save_donation">Thank you! We remembered your donation, you can see it in your profile.</string>
+    <string name="no_payment_message">Sadly, this charity has not registered in the application, and we can\'t process the transaction. You can contact the charity with us using one of the methods below.</string>
+    <string name="already_donated_message">Already donated to %1$s? Tell us how much so that your donation does not get lost.</string>
+    <string name="amount_hint">Amount</string>
     <string name="app_language">App language</string>
     <string name="app_language_summary">Choose the language of the app</string>
-    <string name="preference_language">preference_language</string>
+    <string name="preference_language" translatable="false">preference_language</string>
     <string name="settings">Settings</string>
+    <string name="button_mark_donation">Mark</string>
 </resources>

@@ -28,16 +28,12 @@ public class CharityDescFragment extends Fragment {
     }
 
     public static CharityDescFragment newInstance(Charity given) {
-
         CharityDescFragment f = new CharityDescFragment();
         Bundle b = new Bundle();
         b.putString("firestoreID", given.firestoreID);
         b.putString("name", given.name);
         b.putString("bdesc", given.briefDescription);
         b.putString("fdesc", given.fullDescription);
-        b.putFloat("trust", given.trust);
-        b.putInt("id", given.id);
-        b.putInt("img", given.image);
 
         f.setArguments(b);
 

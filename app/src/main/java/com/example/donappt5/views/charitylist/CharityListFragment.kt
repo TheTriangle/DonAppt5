@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.donappt5.R
-import com.example.donappt5.views.adapters.CharityAdapter
+import com.example.donappt5.views.adapters.CharitiesAdapter
 import com.example.donappt5.databinding.FragmentCharityListBinding
 import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.util.Status
@@ -23,7 +23,7 @@ import com.example.donappt5.views.charitydescription.CharityActivity
 class CharityListFragment(var fillingmode: Int = Util.FILLING_ALPHABET) : Fragment() {
     private lateinit var binding: FragmentCharityListBinding
     val viewModel: CharityListViewModel by activityViewModels()
-    private lateinit var adapter: CharityAdapter
+    private lateinit var adapter: CharitiesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,7 @@ class CharityListFragment(var fillingmode: Int = Util.FILLING_ALPHABET) : Fragme
     }
 
     fun setupView() {
-        adapter = CharityAdapter(
+        adapter = CharitiesAdapter(
             context,
             arrayListOf()
         )
