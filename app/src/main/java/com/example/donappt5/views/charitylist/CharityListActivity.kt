@@ -28,7 +28,7 @@ import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.data.util.Util
 import com.example.donappt5.viewmodels.CharityListViewModel
 import com.example.donappt5.viewmodels.ProgramEntryViewModel
-import com.example.donappt5.views.adapters.CharityAdapter
+import com.example.donappt5.views.adapters.CharitiesAdapter
 import com.example.donappt5.views.charitycreation.popups.ActivityConfirm
 import com.example.donappt5.views.charitycreation.popups.LocatorActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -39,7 +39,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 //TODO in general: change support mail in firebase console settings AND project name
 class CharityListActivity : AppCompatActivity() {
     var chars = ArrayList<Charity>()
-    var charAdapter: CharityAdapter? = null
+    var charAdapter: CharitiesAdapter? = null
     lateinit var ctx: Context
 
     //private FirebaseAnalytics mFirebaseAnalytics;
@@ -72,7 +72,8 @@ class CharityListActivity : AppCompatActivity() {
         }
         setupView()
 
-        charAdapter = CharityAdapter(this, chars)
+        charAdapter =
+            CharitiesAdapter(this, chars)
         myGlobals = MyGlobals(ctx)
         bottomNavigationView = findViewById<View>(R.id.bottom_navigation) as BottomNavigationView
         myGlobals!!.setupBottomNavigation(ctx, this, bottomNavigationView!!)

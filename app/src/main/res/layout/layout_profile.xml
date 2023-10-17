@@ -109,11 +109,12 @@
 
             </LinearLayout>
 
-            <ListView
-                android:id="@+id/lvFriends"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:layout_weight="5"
+                android:name="com.example.donappt5.views.donationslist.DonationsListFragment"/>
 
             <Button
                 android:id="@+id/btnLogOut"
