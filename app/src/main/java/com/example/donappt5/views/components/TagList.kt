@@ -41,8 +41,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
 import com.example.donappt5.R
 import com.example.donappt5.data.util.TagConverter.Companion.transposeTag
-import com.example.donappt5.databinding.ComponentTagsListBinding
-
 
 
 @Preview
