@@ -17,6 +17,7 @@ class Charity {
     lateinit var fullDescription: String
     lateinit var photourl: String
     lateinit var paymentUrl: String
+    lateinit var tags: ArrayList<String>
 
     constructor(
         gfirestoreID: String?,
@@ -26,6 +27,7 @@ class Charity {
         gtrust: Float,
         gim: Int,
         gid: Int,
+        gtags: ArrayList<String>,
         gphotourl: String?
     ) {
         firestoreID = gfirestoreID?: ""
@@ -37,6 +39,7 @@ class Charity {
         id = gid
         photourl = gphotourl?: ""
         paymentUrl = ""
+        tags = gtags
     }
 
     constructor(
@@ -47,6 +50,7 @@ class Charity {
         gtrust: Float,
         gim: Int,
         gid: Int,
+        gtags: ArrayList<String>,
         gphotourl: String?,
         paymentUrl: String?
     ) {
@@ -58,6 +62,7 @@ class Charity {
         image = gim
         id = gid
         photourl = gphotourl?: ""
+        tags = gtags
         this.paymentUrl = paymentUrl?: ""
     }
 
@@ -69,6 +74,7 @@ class Charity {
         id = -2
         paymentUrl = ""
         photourl = ""
+        tags = arrayListOf()
     }
 
     constructor(document: DocumentSnapshot?) {
@@ -84,6 +90,10 @@ class Charity {
         image = R.drawable.ic_launcher_foreground
         trust = -1f
         id = -2
+        tags = arrayListOf()
+        for (tagEntry in (document.get("tags") as List<*>?)?: arrayListOf<String>()) {
+            tags.add((tagEntry as Map<*, *>)["id"].toString())
+        }
     }
 
     companion object {

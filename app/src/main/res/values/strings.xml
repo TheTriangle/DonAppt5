@@ -23,8 +23,11 @@
     <string name="art_tag">art</string>
     <string name="science_research_tag">science and research</string>
     <string name="kids_tag">kids</string>
-    <string name="poverty_tag">poverty</string>
+    <string name="families_tag">families</string>
+    <string name="animals_tag">animals</string>
+    <string name="homeless_tag">homeless</string>
     <string name="healthcare_tag">healthcare</string>
+    <string name="poverty_tag">poverty</string>
     <string name="search_bar_hint">Search</string>
     <string name="creation_confirm_tags">set selected tags</string>
     <string name="charity_name_check">click the button to check if charity with this name already exists</string>

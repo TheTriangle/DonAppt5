@@ -86,7 +86,6 @@ class RecommendationClient(private val context: Context, private val config: Mod
     }
 
     /** Given a list of selected items, preprocess to get tflite input.  */
-    @Synchronized
     private suspend fun preprocess(userID: String): Array<Array<String>> {
         return withContext(Dispatchers.Default) {
             val inputContext = arrayOf(arrayOf(userID))
@@ -101,7 +100,6 @@ class RecommendationClient(private val context: Context, private val config: Mod
     }
 
     /** Given a list of selected items, and returns the recommendation results.  */
-    @Synchronized
     suspend fun recommend(): List<Result> {
         Log.d(TAG, "recommend run" + tflite)
         return withContext(Dispatchers.Default) {
@@ -127,7 +125,6 @@ class RecommendationClient(private val context: Context, private val config: Mod
     }
 
     /** Postprocess to gets results from tflite inference.  */
-    @Synchronized
     private suspend fun postprocess(
         outputIds: Array<Array<String>>, confidences: Array<FloatArray>, userID: String
     ): List<Result> {

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -15,10 +17,12 @@ import com.example.donappt5.R
 import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.data.util.Status
+import com.example.donappt5.data.util.TagConverter
 import com.example.donappt5.databinding.ActivityCharitydescBinding
 import com.example.donappt5.viewmodels.CharityViewModel
 import com.example.donappt5.views.QiwiPaymentActivity
 import com.example.donappt5.views.charitydescription.popups.NoPaymentFragment
+import com.example.donappt5.views.components.TagList
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
 
@@ -34,8 +38,8 @@ class CharityActivity : AppCompatActivity() {
         ctx = this
         super.onCreate(savedInstanceState)
         binding = ActivityCharitydescBinding.inflate(layoutInflater)
-        val view = binding.root
 
+        val view = binding.root
         viewModel = ViewModelProvider(this)[CharityViewModel::class.java]
         viewModel.setCharity(
             Charity(
@@ -46,6 +50,7 @@ class CharityActivity : AppCompatActivity() {
                 intent.getFloatExtra("trust", 0f),
                 intent.getIntExtra("image", 0),
                 intent.getIntExtra("id", 0),
+                intent.getStringArrayListExtra("tags")?: arrayListOf(),
                 intent.getStringExtra("url"),
                 intent.getStringExtra("qiwiPaymentUrl")
             )
@@ -61,18 +66,22 @@ class CharityActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
+        TagConverter.init(this)
         viewModel.getCharity().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.apply {
-                        tvName.text = it.data!!.name
-                        tvTrustRating.text = it.data.trust.toString()
-                        if (it.data.photourl.isNotEmpty()) {
-                            ivImage.setImageResource(R.drawable.ic_sync)
-                            Picasso.with(ctx).load(it.data.photourl).fit().into(ivImage)
+                        titleCard.binding.tvName.text = it.data?.name
+                        titleCard.binding.tvDescription.text = it.data?.fullDescription
+                        titleCard.binding.tagList.apply {
+                            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+                            setContent {
+                                // In Compose world
+                                MaterialTheme {
+                                    TagList(it.data?.tags?: arrayListOf())
+                                }
+                            }
                         }
-                        pagerAdapter = MyPagerAdapter(supportFragmentManager)
-                        viewPager.adapter = pagerAdapter
                     }
                     viewModel.loadFav(it.data!!.firestoreID)
                 }
@@ -92,9 +101,9 @@ class CharityActivity : AppCompatActivity() {
                 Status.SUCCESS -> {
                     binding.apply {
                         if (it.data == true) {
-                            ivFavorite.setImageResource(R.drawable.ic_favorite_on)
+                            //ivFavorite.setImageResource(R.drawable.ic_favorite_on)
                         } else {
-                            ivFavorite.setImageResource(R.drawable.ic_favorite_off)
+                            //ivFavorite.setImageResource(R.drawable.ic_favorite_off)
                         }
                     }
                 }
@@ -128,7 +137,7 @@ class CharityActivity : AppCompatActivity() {
                     }
                 }
             }
-            ivFavorite.setOnClickListener { viewModel.changeFav() }
+            //ivFavorite.setOnClickListener { viewModel.changeFav() }
         }
     }
 

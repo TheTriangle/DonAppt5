@@ -24,6 +24,9 @@
     <string name="art_tag">искусство</string>
     <string name="science_research_tag">наука и исследования</string>
     <string name="kids_tag">дети</string>
+    <string name="families_tag">семьи</string>
+    <string name="animals_tag">животные</string>
+    <string name="homeless_tag">бездомные</string>
     <string name="poverty_tag">борьба с бедностью</string>
     <string name="healthcare_tag">здравоохранение</string>
     <string name="search_bar_hint">Поиск</string>

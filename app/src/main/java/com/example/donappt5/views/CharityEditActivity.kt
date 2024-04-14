@@ -58,6 +58,7 @@ class CharityEditActivity : AppCompatActivity() {
             intent.getFloatExtra("trust", 0f),
             intent.getIntExtra("image", 0),
             intent.getIntExtra("id", -1),
+            intent.getStringArrayListExtra("tags")?: arrayListOf(),
             intent.getStringExtra("url"),
             intent.getStringExtra("qiwiPaymentUrl")
         )

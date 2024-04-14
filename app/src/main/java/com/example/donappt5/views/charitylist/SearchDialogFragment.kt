@@ -6,13 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.CheckBox
+import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.donappt5.R
 import com.example.donappt5.viewmodels.CharityListViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.search_bottom_sheet.view.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class SearchDialogFragment(var radius: Int) : BottomSheetDialogFragment() {
@@ -34,11 +36,18 @@ class SearchDialogFragment(var radius: Int) : BottomSheetDialogFragment() {
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 
-        val fabSendSearch = rootLayout.fabSendSearch
+        val fabSendSearch = rootLayout.findViewById<FloatingActionButton>(R.id.fabSendSearch)
+        val tagKids = rootLayout.findViewById<CheckBox>(R.id.tagKids)
+        val tagHealthcare = rootLayout.findViewById<CheckBox>(R.id.tagHealthcare)
+        val tagEducation = rootLayout.findViewById<CheckBox>(R.id.tagEducation)
+        val tagPoverty = rootLayout.findViewById<CheckBox>(R.id.tagPoverty)
+        val tagArt = rootLayout.findViewById<CheckBox>(R.id.tagArt)
+        val tagScience = rootLayout.findViewById<CheckBox>(R.id.tagScience)
+        val searchBar = rootLayout.findViewById<EditText>(R.id.search_bar)
         fabSendSearch.setOnClickListener {
-            viewModel.parseSearchInfo(rootLayout.tagKids.isChecked, rootLayout.tagPoverty.isChecked,
-            rootLayout.tagHealthcare.isChecked, rootLayout.tagScience.isChecked, rootLayout.tagArt.isChecked,
-            rootLayout.tagEducation.isChecked, rootLayout.search_bar.text.toString())
+            viewModel.parseSearchInfo(tagKids.isChecked, tagPoverty.isChecked,
+            tagHealthcare.isChecked, tagScience.isChecked, tagArt.isChecked,
+            tagEducation.isChecked, searchBar.text.toString())
         }
         return view
     }

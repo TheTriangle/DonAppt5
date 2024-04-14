@@ -7,8 +7,6 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.donappt5.databinding.PopupCheckboxesBinding
-import kotlinx.android.synthetic.main.popup_checkboxes.*
-import kotlinx.android.synthetic.main.popup_checkboxes.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,13 +53,13 @@ class TagsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = PopupCheckboxesBinding.inflate(inflater, container, false)
         val view = binding.root
-        setupView(view)
+        setupView(binding)
         return view
     }
 
-    private fun setupView(view: View) {
-        view.apply {
-            btnSetTags.setVisibility(GONE)
+    private fun setupView(binding: PopupCheckboxesBinding) {
+        binding.apply {
+            btnSetTags.visibility = GONE
 
             kidscb.isChecked = state[KIDS] == true
             povcb.isChecked = state[POVERTY] == true
@@ -89,12 +87,12 @@ class TagsFragment : Fragment() {
         healthcare: Boolean?,
         education: Boolean?
     ) {
-        kidscb.isChecked = kids == true
-        povcb.isChecked = poverty == true
-        rescb.isChecked = scienceAndResearch == true
-        artcb.isChecked = art == true
-        helcb.isChecked = healthcare == true
-        educb.isChecked = education == true
+        binding.kidscb.isChecked = kids == true
+        binding.povcb.isChecked = poverty == true
+        binding.rescb.isChecked = scienceAndResearch == true
+        binding.artcb.isChecked = art == true
+        binding.helcb.isChecked = healthcare == true
+        binding.educb.isChecked = education == true
     }
 
     companion object {

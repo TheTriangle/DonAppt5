@@ -104,6 +104,7 @@ class CharityListFragment(var fillingmode: Int = Util.FILLING_ALPHABET) : Fragme
                     intent.putExtra("id", clickedCharity.id)
                     intent.putExtra("url", clickedCharity.photourl)
                     intent.putExtra("qiwiPaymentUrl", clickedCharity.paymentUrl)
+                    intent.putExtra("tags", clickedCharity.tags)
                     startActivity(intent)
                 }
         }

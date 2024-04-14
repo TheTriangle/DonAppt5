@@ -68,6 +68,7 @@ class CharityRecommendationsFragment : Fragment() {
                     intent.putExtra("id", clickedCharity.id)
                     intent.putExtra("url", clickedCharity.photourl)
                     intent.putExtra("qiwiPaymentUrl", clickedCharity.paymentUrl)
+                    intent.putExtra("tags", clickedCharity.tags)
                     startActivity(intent)
                 }
             lvMain.setOnScrollListener(object : AbsListView.OnScrollListener {

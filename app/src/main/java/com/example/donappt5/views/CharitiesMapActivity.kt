@@ -184,6 +184,7 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                         intent.putExtra("fdesc", clickedCharity!!.fullDescription)
                         intent.putExtra("url", clickedCharity!!.photourl)
                         intent.putExtra("qiwiPaymentUrl", clickedCharity!!.paymentUrl)
+                        intent.putExtra("tags", clickedCharity!!.tags)
                         startActivity(intent)
                     }
                 }

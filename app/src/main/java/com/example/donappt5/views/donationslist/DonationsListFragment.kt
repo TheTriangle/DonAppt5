@@ -2,7 +2,6 @@ package com.example.donappt5.views.donationslist
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,18 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.donappt5.R
-import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.model.Donation
 import com.example.donappt5.data.util.Status
-import com.example.donappt5.data.util.Util
-import com.example.donappt5.databinding.FragmentCharityListBinding
 import com.example.donappt5.databinding.FragmentDonationsListBinding
 import com.example.donappt5.viewmodels.DonationsListViewModel
-import com.example.donappt5.views.adapters.CharitiesAdapter
 import com.example.donappt5.views.adapters.DonationsAdapter
 import com.example.donappt5.views.charitydescription.CharityActivity
 import com.example.donappt5.views.charitylist.CharityListFragment
-import kotlinx.android.synthetic.main.fragment_donations_list.lvDonations
 
 class DonationsListFragment : Fragment() {
     private lateinit var binding: FragmentDonationsListBinding
@@ -102,6 +96,7 @@ class DonationsListFragment : Fragment() {
                     intent.putExtra("id", clickedCharity.id)
                     intent.putExtra("url", clickedCharity.photourl)
                     intent.putExtra("qiwiPaymentUrl", clickedCharity.paymentUrl)
+                    intent.putExtra("tags", clickedCharity.tags)
                     startActivity(intent) TODO go to campaign page */
                 }
         }
