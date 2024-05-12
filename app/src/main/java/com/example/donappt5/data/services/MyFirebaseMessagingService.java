@@ -40,6 +40,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         device_token.put("device_token", token);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
         db.collection("users").document(user.getUid()).update(device_token);
     }
     Charity clickedCharity;

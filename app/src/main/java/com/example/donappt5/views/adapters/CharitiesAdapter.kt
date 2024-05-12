@@ -44,14 +44,7 @@ class CharitiesAdapter(var ctx: Context?, var objects: ArrayList<Charity>) :
         // и картинка
         (view?.findViewById<View>(R.id.tvDescr) as TextView).text = c.briefDescription
         (view.findViewById<View>(R.id.tvName) as TextView).text = c.name
-        (view.findViewById<View>(R.id.ivImage) as ImageView).setImageResource(R.drawable.ic_launcher_foreground)
 
-        //ImageView ivinad = view.findViewById(R.id.ivImage);
-        if (!c.photourl.isEmpty()) {
-            //Picasso.get().load(user.getPhotoUrl()).into(ivinHeader);
-            Picasso.with(ctx).load(c.photourl).fit()
-                .into(view.findViewById<View>(R.id.ivImage) as ImageView)
-        }
         return view
     }
 

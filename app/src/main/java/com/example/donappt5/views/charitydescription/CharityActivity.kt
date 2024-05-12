@@ -18,11 +18,14 @@ import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.data.util.Status
 import com.example.donappt5.data.util.TagConverter
+import com.example.donappt5.data.util.Util.getSerializable
 import com.example.donappt5.databinding.ActivityCharitydescBinding
 import com.example.donappt5.viewmodels.CharityViewModel
 import com.example.donappt5.views.QiwiPaymentActivity
+import com.example.donappt5.views.charitydescription.components.CampaignsList
 import com.example.donappt5.views.charitydescription.popups.NoPaymentFragment
-import com.example.donappt5.views.components.TagList
+import com.example.donappt5.views.charitydescription.components.CharityContactsCard
+import com.example.donappt5.views.charitydescription.components.TagList
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
 
@@ -51,6 +54,7 @@ class CharityActivity : AppCompatActivity() {
                 intent.getIntExtra("image", 0),
                 intent.getIntExtra("id", 0),
                 intent.getStringArrayListExtra("tags")?: arrayListOf(),
+                getSerializable(intent, "contacts", arrayListOf<Map<String, String>>()::class.java),
                 intent.getStringExtra("url"),
                 intent.getStringExtra("qiwiPaymentUrl")
             )
@@ -76,9 +80,24 @@ class CharityActivity : AppCompatActivity() {
                         titleCard.binding.tagList.apply {
                             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
                             setContent {
-                                // In Compose world
                                 MaterialTheme {
                                     TagList(it.data?.tags?: arrayListOf())
+                                }
+                            }
+                        }
+                        contacts.apply {
+                            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+                            setContent {
+                                MaterialTheme {
+                                    CharityContactsCard(it.data?.contacts?: arrayListOf())
+                                }
+                            }
+                        }
+                        campaigns.apply {
+                            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+                            setContent {
+                                MaterialTheme {
+                                    it.data?.firestoreID?.let { id -> CampaignsList(it.data.name, id) }
                                 }
                             }
                         }

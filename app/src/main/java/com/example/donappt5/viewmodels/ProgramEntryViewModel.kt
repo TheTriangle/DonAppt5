@@ -7,6 +7,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.donappt5.data.model.User
+import com.example.donappt5.data.model.User.Companion.toUser
 import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.views.charitycreation.popups.ActivityConfirm
 import com.firebase.geofire.GeoLocation
@@ -74,6 +76,14 @@ class ProgramEntryViewModel : ViewModel() {
             val user = FirebaseAuth.getInstance().currentUser
             user?.uid?.let {
                 FirestoreService.setLocationOfInterest(user.uid, GeoLocation(latitude, longitude))
+            }
+        }
+    }
+
+    fun setCurrentUser() {
+        FirebaseAuth.getInstance().currentUser?.let {
+            FirestoreService.getUser(it.uid).addOnSuccessListener {
+                User.currentUser = it.toUser()
             }
         }
     }

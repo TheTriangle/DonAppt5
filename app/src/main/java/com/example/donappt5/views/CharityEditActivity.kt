@@ -20,8 +20,10 @@ import com.example.donappt5.views.charitycreation.popups.TagsActivity
 import com.example.donappt5.R
 import com.example.donappt5.databinding.ActivityCharityeditBinding
 import com.example.donappt5.data.model.Charity
+import com.example.donappt5.data.model.Charity.Companion.getCharityExtra
 import com.example.donappt5.data.util.Status
 import com.example.donappt5.data.util.MyGlobals
+import com.example.donappt5.data.util.Util
 import com.example.donappt5.viewmodels.CharityEditViewModel
 import com.squareup.picasso.Picasso
 
@@ -50,18 +52,7 @@ class CharityEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        descChar = Charity(
-            intent.getStringExtra("firestoreID"),
-            intent.getStringExtra("chname"),
-            intent.getStringExtra("bdesc"),
-            intent.getStringExtra("fdesc"),
-            intent.getFloatExtra("trust", 0f),
-            intent.getIntExtra("image", 0),
-            intent.getIntExtra("id", -1),
-            intent.getStringArrayListExtra("tags")?: arrayListOf(),
-            intent.getStringExtra("url"),
-            intent.getStringExtra("qiwiPaymentUrl")
-        )
+        descChar = intent.getCharityExtra()
 
         var ctx: Context = this
         binding = ActivityCharityeditBinding.inflate(layoutInflater)

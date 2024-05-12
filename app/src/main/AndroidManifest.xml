@@ -84,6 +84,8 @@
         <activity android:name=".views.ProfileActivity" />
         <activity android:name=".views.charitycreation.CharityCreationActivity" />
         <activity android:name=".views.charitycreation.popups.LocatorActivity" />
+        <activity android:name=".views.campaign.CampaignActivity" />
+        <activity android:name=".views.campaign.PostActivity" />
         <activity
             android:name=".views.charitycreation.popups.ActivityConfirm"
             android:theme="@style/AppTheme.PopUpWindowStyle" />

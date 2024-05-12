@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.donappt5.R
 import com.example.donappt5.data.model.Charity
+import com.example.donappt5.data.model.Charity.Companion.putCharityExtra
 import com.example.donappt5.data.model.Charity.Companion.toCharity
 import com.example.donappt5.data.model.MyClusterItem
 import com.example.donappt5.data.services.FirestoreService
@@ -178,13 +179,7 @@ class CharitiesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                     if (document.exists()) {
                         clickedCharity = document.toCharity()
                         val intent = Intent(context, CharityActivity::class.java)
-                        intent.putExtra("firestoreID", clickedCharity!!.firestoreID)
-                        intent.putExtra("chname", clickedCharity!!.name)
-                        intent.putExtra("bdesc", clickedCharity!!.briefDescription)
-                        intent.putExtra("fdesc", clickedCharity!!.fullDescription)
-                        intent.putExtra("url", clickedCharity!!.photourl)
-                        intent.putExtra("qiwiPaymentUrl", clickedCharity!!.paymentUrl)
-                        intent.putExtra("tags", clickedCharity!!.tags)
+                        intent.putCharityExtra(clickedCharity!!)
                         startActivity(intent)
                     }
                 }

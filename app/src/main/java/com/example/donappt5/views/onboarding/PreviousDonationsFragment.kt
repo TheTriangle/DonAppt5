@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TableRow
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import com.example.donappt5.R
 import com.example.donappt5.databinding.FragmentPreviousDonationsBinding
@@ -82,7 +83,7 @@ class PreviousDonationsFragment : Fragment() {
         if (donation != null) {
             etDonation.setText(Integer.toString(donation))
         }
-        val btnDeleteRow = tr.findViewById<Button>(R.id.btnDeleteRow)
+        val btnDeleteRow = tr.findViewById<AppCompatImageButton>(R.id.btnDeleteRow)
         btnDeleteRow.setOnClickListener {
             AlertDialog.Builder(context)
                 .setTitle("Delete record")

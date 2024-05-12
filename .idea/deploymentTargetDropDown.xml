@@ -2,6 +2,15 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CampaignListItem">
+        <State />
+      </entry>
+      <entry key="CampaignsList">
+        <State />
+      </entry>
+      <entry key="CharityContactsCard">
+        <State />
+      </entry>
       <entry key="TagList">
         <State />
       </entry>

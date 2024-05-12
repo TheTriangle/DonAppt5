@@ -1,4 +1,4 @@
-package com.example.donappt5.views.components
+package com.example.donappt5.views.charitydescription.components
 
 import android.content.Context
 import android.content.res.Resources
