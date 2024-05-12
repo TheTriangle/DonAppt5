@@ -8,7 +8,6 @@ import androidx.fragment.app.DialogFragment
 import com.example.donappt5.R
 import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.databinding.PopupNoPaymentMethodBinding
-import kotlinx.android.synthetic.main.popup_no_payment_method.etDonationAmount
 import java.util.Date
 
 class NoPaymentFragment(val charityId: String, val charityName: String, val campaignId: String?,
@@ -27,7 +26,7 @@ class NoPaymentFragment(val charityId: String, val charityName: String, val camp
                 binding.tvCurrency.text.toString(), Date(), charityId, charityName, campaignId, campaignName
             )
             binding.tvDonatedMessage.text = getString(R.string.thank_you_save_donation)
-            etDonationAmount.setText("")
+            binding.etDonationAmount.setText("")
         }
         return binding.root
     }

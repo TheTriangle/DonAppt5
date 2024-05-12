@@ -116,7 +116,8 @@ class OnBoardingActivity : AppCompatActivity() {
     }
 
     private fun confirmChanges() {
-            // TODO: собрать объект и отправить вьюмодели
+        // TODO: собрать объект и отправить вьюмодели
+        try {
             val donationPreferences: MutableMap<String, Any> = HashMap()
             if (fragPreviousDonations.isAdded) {
                 val previousDonations = fragPreviousDonations.getData()
@@ -148,7 +149,10 @@ class OnBoardingActivity : AppCompatActivity() {
                     "education" to viewModel.userPreferences.value?.data!!.education,
                 )
             }
-        viewModel.setUserPreferences(donationPreferences)
+            viewModel.setUserPreferences(donationPreferences)
+        } catch(ex: Exception) {
+            Log.e("Serialization:", ex.message.toString())
+        }
     }
 
     private class MyPagerAdapter(fm: FragmentManager, val fragmentList: List<Fragment>) :

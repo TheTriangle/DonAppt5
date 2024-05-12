@@ -13,6 +13,7 @@ import com.example.donappt5.R
 import com.example.donappt5.views.adapters.CharitiesAdapter
 import com.example.donappt5.databinding.ActivityOwnedCharityListBinding
 import com.example.donappt5.data.model.Charity
+import com.example.donappt5.data.model.Charity.Companion.putCharityExtra
 import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.data.util.Status
 import com.example.donappt5.viewmodels.OwnedCharityListVeiwModel
@@ -106,15 +107,7 @@ class OwnedCharityListActivity : AppCompatActivity() {
                                 + id + ", name = " + clickedCharity.name + "url = " + clickedCharity.photourl + ", payment url = " + clickedCharity.paymentUrl
                     )
                     val intent = Intent(baseContext, CharityEditActivity::class.java)
-                    intent.putExtra("firestoreID", clickedCharity.firestoreID)
-                    intent.putExtra("chname", clickedCharity.name)
-                    intent.putExtra("bdesc", clickedCharity.briefDescription)
-                    intent.putExtra("fdesc", clickedCharity.fullDescription)
-                    intent.putExtra("trust", clickedCharity.trust)
-                    intent.putExtra("image", clickedCharity.image)
-                    intent.putExtra("id", clickedCharity.id)
-                    intent.putExtra("url", clickedCharity.photourl)
-                    intent.putExtra("qiwiPaymentUrl", clickedCharity.paymentUrl)
+                    intent.putCharityExtra(clickedCharity)
                     startActivity(intent)
                 }
 

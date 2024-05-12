@@ -8,6 +8,7 @@ import com.example.donappt5.data.model.Charity.Companion.toCharity
 import com.example.donappt5.data.model.SearchContext
 import com.example.donappt5.data.model.User
 import com.example.donappt5.data.util.Util
+import com.example.donappt5.data.util.Util.toTimestamp
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
@@ -15,12 +16,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.AggregateQuery
 import com.google.firebase.firestore.AggregateQuerySnapshot
 import com.google.firebase.firestore.AggregateSource
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import java.time.Instant
 import java.util.Date
 
 object FirestoreService {
@@ -301,6 +304,12 @@ object FirestoreService {
         }
     }
 
+    fun getPosts(campaignId: String): Task<QuerySnapshot> {
+        val db = FirebaseFirestore.getInstance()
+        val query = db.collection("campaigns").document("campaignId").collection("posts")
+        return query.get()
+    }
+
     fun addDonationToHistory(amount: Double, currency: String, date: Date, charityId: String,
                              charityName: String, campaignId: String?, campaignName: String?) {
         val db = FirebaseFirestore.getInstance()
@@ -318,5 +327,78 @@ object FirestoreService {
         campaignName?.let { donationMap["campaignname"] = campaignName}
         db.collection("donations").document(Util.getRandomString(28))
             .set(donationMap)
+    }
+
+    fun getCampaignsFor(charityId: String): Task<QuerySnapshot> {
+        val db = FirebaseFirestore.getInstance()
+
+        val q = db.collection("campaigns")
+            .whereEqualTo("parentcharity", charityId)
+        return q.get()
+    }
+
+    fun getPostsFor(campaignId: String): Task<QuerySnapshot> {
+        val db = FirebaseFirestore.getInstance()
+
+        val q = db.collection("campaigns")
+            .document(campaignId)
+            .collection("posts")
+        return q.get()
+    }
+
+    fun getLikesFor(campaignId: String): Task<QuerySnapshot> {
+        val db = FirebaseFirestore.getInstance()
+
+        val q = db.collection("likes")
+            .whereEqualTo("userid", User.currentUser.uid)
+            .whereEqualTo("campaignid", campaignId)
+        return q.get()
+    }
+
+    // TODO RESTRICT LIKE ACTIVITY TO PREVENT SPAM
+    fun like(postId: String, campaignId: String) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("likes").add(
+            mapOf(
+                "userid" to User.currentUser.uid,
+                "campaignid" to campaignId,
+                "postid" to postId
+            )
+        )
+    }
+
+    fun dislike(postId: String, campaignId: String) {
+        val db = FirebaseFirestore.getInstance()
+
+        val q = db.collection("likes")
+            .whereEqualTo("userid", User.currentUser.uid)
+            .whereEqualTo("postid", postId)
+
+        q.get().addOnSuccessListener {
+            for (doc in it) {
+                db.collection("likes").document(doc.id).delete()
+            }
+        }
+    }
+
+    fun getComments(campaignId: String, postId: String): Task<QuerySnapshot> {
+        val db = FirebaseFirestore.getInstance()
+
+        return db.collection("campaigns").document(campaignId)
+            .collection("posts").document(postId).collection("comments").get()
+    }
+
+    fun sendComment(campaignId: String, postId: String, comment: String): Task<DocumentReference> {
+        val db = FirebaseFirestore.getInstance()
+
+        return db.collection("campaigns").document(campaignId).collection("posts")
+            .document(postId).collection("comments").add(mapOf(
+                "text" to comment,
+                "date" to Instant.now().toTimestamp(),
+                "organisation" to false,
+                "uid" to FirebaseAuth.getInstance().currentUser?.uid,
+                "username" to User.currentUser.username
+            ))
     }
 }

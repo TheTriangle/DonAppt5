@@ -2,8 +2,6 @@ package com.example.donappt5.views.charitycreation
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.Html
-import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.view.LayoutInflater
@@ -14,7 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.donappt5.R
 import com.example.donappt5.databinding.FragmentCharityCreatePaymentCredentialsBinding
-import kotlinx.android.synthetic.main.fragment_charity_create_payment_credentials.view.*
+//import kotlinx.android.synthetic.main.fragment_charity_create_payment_credentials.view.*
 
 
 /**
@@ -59,11 +57,11 @@ class CharityCreatePaymentCredentials : Fragment() {
     }
 
     private fun setupView(view: View) {
-        qiwiEditText = view.qiwiPaymentUrlEditText
-        qiwiEditText?.setText(url)
-        view.qiwiPaymentInfoButton.setOnClickListener {
-            showInfoAlertDialog()
-        }
+        //qiwiEditText = view.qiwiPaymentUrlEditText
+        //qiwiEditText?.setText(url)
+        //view.qiwiPaymentInfoButton.setOnClickListener {
+        //    showInfoAlertDialog()
+        //}
     }
 
     private fun showInfoAlertDialog() {
