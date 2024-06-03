@@ -63,7 +63,7 @@ fun CharityContactsCard(contacts: ArrayList<Map<String, String>> = arrayListOf(m
                     if (websiteLinkClicked.value) {
                         val browserIntent = Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse("http://" + contacts.filter { contact -> contact["id"] == "4" }[0]["value"])
+                            Uri.parse("https://" + contacts.filter { contact -> contact["id"] == "4" }[0]["value"])
                         )
                         LocalContext.current.startActivity(browserIntent)
                         websiteLinkClicked.value = false

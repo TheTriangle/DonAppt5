@@ -66,7 +66,6 @@ class CharityListActivity : AppCompatActivity() {
         programEntryViewModel.userHasLocationsOfInterest.observe(this) { data ->
             // launchLocatorActivity()
         }
-        programEntryViewModel.setCurrentUser()
 
         if (intent.getIntExtra("fillingmode", Util.FILLING_ALPHABET) == Util.FILLING_FAVORITES) {
             fillingmode = Util.FILLING_FAVORITES

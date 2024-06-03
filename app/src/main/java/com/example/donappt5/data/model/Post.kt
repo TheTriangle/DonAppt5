@@ -19,7 +19,7 @@ class Post {
     var fullText: String
     var header: String
     var images: ArrayList<String>
-    var documents: ArrayList<String>
+    var documents: ArrayList<Map<String, String>>
     var likes: Int = 0
     var pinned: Boolean = false
     var isFinishPost: Boolean = false
@@ -30,7 +30,7 @@ class Post {
                 gfullText: String?,
                 gheader: String?,
                 gimages: ArrayList<String>?,
-                gdocuments: ArrayList<String>?,
+                gdocuments: ArrayList<Map<String, String>>?,
                 glikes: Int?,
                 gpinned: Boolean?,
                 gfinish: Boolean?,
@@ -57,7 +57,7 @@ class Post {
         }
         documents = arrayListOf()
         for (docUrl in document.get("documents") as List<*>) {
-            documents.add(docUrl as String)
+            documents.add(docUrl as Map<String, String>)
         }
         likes = document.getLong("likes")?.toInt()?: 0
         pinned = document.getBoolean("pinned") == true
@@ -98,7 +98,7 @@ class Post {
                 Util.getSerializable(
                     this,
                     "documents",
-                    arrayListOf<String>()::class.java
+                    arrayListOf<Map<String, String>>()::class.java
                 ),
                 this.getIntExtra("likes", 0),
                 this.getBooleanExtra("pinned", false),

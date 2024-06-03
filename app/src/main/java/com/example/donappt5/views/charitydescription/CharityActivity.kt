@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import com.example.donappt5.R
 import com.example.donappt5.data.model.Charity
+import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.data.util.Status
 import com.example.donappt5.data.util.TagConverter
@@ -36,6 +37,7 @@ class CharityActivity : AppCompatActivity() {
     var bottomNavigationView: BottomNavigationView? = null
     lateinit var viewModel: CharityViewModel
     private lateinit var binding: ActivityCharitydescBinding
+    var isSubscribedTo = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         ctx = this
@@ -84,6 +86,26 @@ class CharityActivity : AppCompatActivity() {
                                     TagList(it.data?.tags?: arrayListOf())
                                 }
                             }
+                        }
+                        it.data?.firestoreID?.let { charityId ->
+                            FirestoreService.getIsUserSubscribedTo(
+                                charityId
+                            ).addOnSuccessListener {
+                                if (!it.isEmpty) {
+                                    isSubscribedTo = true
+
+                                }
+                            }
+                        }
+                        titleCard.binding.ivBell.setOnClickListener { view ->
+                            if (isSubscribedTo) {
+                                titleCard.binding.ivBell.setImageResource(R.drawable.bell_outline)
+                                FirestoreService.unsubscribeFrom(it.data?.firestoreID)
+                            } else {
+                                titleCard.binding.ivBell.setImageResource(R.drawable.bell_filled)
+                                FirestoreService.subscribeTo(it.data?.firestoreID)
+                            }
+                            isSubscribedTo = !isSubscribedTo
                         }
                         contacts.apply {
                             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)

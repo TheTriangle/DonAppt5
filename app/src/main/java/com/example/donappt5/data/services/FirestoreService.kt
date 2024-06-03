@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.AggregateQuery
 import com.google.firebase.firestore.AggregateQuerySnapshot
 import com.google.firebase.firestore.AggregateSource
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -60,12 +61,18 @@ object FirestoreService {
         var query = db.collection("charities") as Query
         if (searchContext != null && !searchContext.isEmpty()) {
             Log.d("getCharityList", "Non null search context")
-            if (searchContext.tags["kids"] == true) query = query.whereEqualTo("children", true)
-            if (searchContext.tags["poverty"] == true) query = query.whereEqualTo("poverty", true)
-            if (searchContext.tags["healthcare"] == true) query = query.whereEqualTo("healthcare", true)
-            if (searchContext.tags["science"] == true) query = query.whereEqualTo("science&research", true)
-            if (searchContext.tags["art"] == true) query = query.whereEqualTo("art", true)
-            if (searchContext.tags["education"] == true) query = query.whereEqualTo("education", true)
+            if (searchContext.tags["kids"] == true)
+                query = query.whereArrayContains("tags", mapOf("id" to 1, "title" to "дети"))
+            if (searchContext.tags["poverty"] == true)
+                query = query.whereArrayContains("tags", mapOf("id" to 6, "title" to "бедность"))
+            if (searchContext.tags["healthcare"] == true)
+                query = query.whereArrayContains("tags", mapOf("id" to 5, "title" to "больные"))
+            if (searchContext.tags["science"] == true)
+                query = query.whereArrayContains("tags", mapOf("id" to 7, "title" to "исследования"))
+            if (searchContext.tags["art"] == true)
+                query = query.whereArrayContains("tags", mapOf("id" to 8, "title" to "искусство"))
+            if (searchContext.tags["education"] == true)
+                query = query.whereArrayContains("tags", mapOf("id" to 9, "title" to "образование"))
             if (searchContext.name != "") { // TODO implement Algola
                 query = query.orderBy("name").startAt(searchContext.name).endAt(searchContext.name + "\uf8ff")
             }
@@ -400,5 +407,43 @@ object FirestoreService {
                 "uid" to FirebaseAuth.getInstance().currentUser?.uid,
                 "username" to User.currentUser.username
             ))
+    }
+
+    fun getIsUserSubscribedTo(sourceId: String):Task<QuerySnapshot> {
+        val db = FirebaseFirestore.getInstance()
+
+        return db.collection("notificationsubscriptions")
+            .whereEqualTo("sourceId", sourceId)
+            .whereEqualTo("userId", User.currentUser.uid).get()
+    }
+
+    //TODO prevent spamming
+    fun unsubscribeFrom(sourceId: String?) {
+        if (sourceId == null) return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("notificationsubscriptions")
+            .whereEqualTo("sourceId", sourceId)
+            .whereEqualTo("userId", User.currentUser.uid).get().addOnSuccessListener {
+                for(doc in it) {
+                    db.collection("notificationsubscriptions").document(doc.id).delete()
+                }
+            }
+    }
+
+    //TODO prevent spamming
+    fun subscribeTo(sourceId: String?) {
+        if (sourceId == null) return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("notificationsubscriptions")
+            .add(
+                mapOf(
+                    "devicetoken" to User.currentUser.deviceToken,
+                    "userid" to User.currentUser.uid,
+                    "sourcetype" to 0,
+                    "sourceid" to sourceId
+                )
+            )
     }
 }

@@ -13,6 +13,7 @@ class Campaign() {
     lateinit var name: String
     lateinit var parentCharityId: String
     lateinit var id: String
+    var yoomoney: String? = null
 
     lateinit var posts: MutableState<ArrayList<Post>>
 
@@ -26,12 +27,14 @@ class Campaign() {
         }
     }
 
-    constructor(gid: String, gtotalAmount: Int, gcollectedAmount: Int, gname: String, gparentCharityId: String) : this() {
+    constructor(gid: String, gtotalAmount: Int, gcollectedAmount: Int, gname: String,
+                gparentCharityId: String, gyoomoney: String?) : this() {
         id = gid
         totalAmount = gtotalAmount
         collectedAmount = gcollectedAmount
         name = gname
         parentCharityId = gparentCharityId
+        yoomoney = gyoomoney
     }
 
     constructor(document: DocumentSnapshot) : this() {
@@ -40,6 +43,7 @@ class Campaign() {
         name = document.getString("name")?: "Name not found"
         parentCharityId = document.getString("parentcharity")?: "Parent charity not found"
         id = document.id
+        yoomoney = document.getString("yoomoney")
     }
 
     companion object {
@@ -58,6 +62,7 @@ class Campaign() {
             this.putExtra("id", campaign.id)
             this.putExtra("parentid", campaign.parentCharityId)
             this.putExtra("name", campaign.name)
+            this.putExtra("yoomoney", campaign.yoomoney)
         }
 
         fun Intent.getCampaignExtra(): Campaign {
@@ -67,6 +72,7 @@ class Campaign() {
                 this.getIntExtra("collectedamount", 0),
                 this.getStringExtra("name")?: "",
                 this.getStringExtra("parentid")?: "",
+                this.getStringExtra("yoomoney")?: ""
             )
         }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DonAppt5</string>
+    <string name="app_name">С миру по нитке</string>
     <string name="title_activity_settings">Настройки</string>
     <string name="title_activity_charitymap">Карта</string>
     <string name="qiwi_payment">Ссылка на оплату qiwi</string>
@@ -28,7 +28,7 @@
     <string name="animals_tag">животные</string>
     <string name="homeless_tag">бездомные</string>
     <string name="poverty_tag">борьба с бедностью</string>
-    <string name="healthcare_tag">здравоохранение</string>
+    <string name="healthcare_tag">здоровье</string>
     <string name="search_bar_hint">Поиск</string>
     <string name="creation_confirm_tags">выбрать тэги</string>
     <string name="charity_name_check">проверить, существует ли организация с таким именем</string>
@@ -60,4 +60,10 @@
     <string name="app_language_summary">Выбрать язык приложения</string>
     <string name="settings">Настройки</string>
     <string name="collected_out_of_text">Собрано %1$s из %2$s</string>
+    <string name="new_publications">О новых публикациях</string>
+    <string name="acheiveid_goals">О достигнутых целях сборов</string>
+    <string name="urgent_messages">О срочных сообщениях от сборов</string>
+    <string name="campaign_closures">О завершении кампаний</string>
+    <string name="notify_about_text">Уведомляйте меня:</string>
+    <string name="allow_from_text">Разрешить уведомления от:</string>
 </resources>

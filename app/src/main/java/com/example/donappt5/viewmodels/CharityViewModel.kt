@@ -55,7 +55,7 @@ class CharityViewModel : ViewModel() {
     }
 
     fun logAnalytics() {
-        Analytics.logAnalyticsEvent(charity.value?.data!!.firestoreID)
+        charity.value?.data?.firestoreID?.let { Analytics.logAnalyticsEvent(it) }
     }
 
     fun getCharity(): LiveData<Response<Charity>> {

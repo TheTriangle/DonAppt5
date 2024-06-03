@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.donappt5.*
 import com.example.donappt5.views.*
-import com.example.donappt5.views.charitycreation.CharityCreationActivity
 import com.example.donappt5.views.charitydescription.CharityActivity
 import com.example.donappt5.views.charitylist.CharityListActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,7 +39,7 @@ class MyGlobals     // constructor
                     true
                 }
                 R.id.donations -> {
-                    val intent6 = Intent(ctx, OwnedCharityListActivity::class.java)
+                    val intent6 = Intent(ctx, NotificationSetupActivity::class.java)
                     activity.startActivity(intent6)
                     true
                 }
@@ -61,9 +60,7 @@ class MyGlobals     // constructor
             // is BrowseActivity -> { R.id.charitylist }
             is CharitiesMapActivity -> { R.id.map }
             is CharityActivity -> { R.id.charitylist }
-            is CharityCreationActivity -> { R.id.donations }
-            is CharityEditActivity -> { R.id.donations }
-            is OwnedCharityListActivity -> { R.id.donations }
+            is NotificationSetupActivity -> { R.id.donations }
             is ProfileActivity -> { R.id.profile }
             else -> R.id.charitylist
         }).isChecked = true

@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.donappt5.R
+import com.example.donappt5.data.model.User
 import com.example.donappt5.databinding.ComponentCharityTitleCardBinding
 
 

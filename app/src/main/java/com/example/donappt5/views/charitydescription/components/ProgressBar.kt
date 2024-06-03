@@ -40,7 +40,18 @@ fun ProgressBar(progress: Double = 0.5, overlayText: String = "Placeholder") {
                     .fillMaxWidth()
                     .padding(5.dp)
             ) {
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = Color(0xFF67AB8D),
+                            shape = RoundedCornerShape(50.dp)
+                        )
+                        .fillMaxWidth(progress.toFloat())
+                        .height(50.dp)
+                ) {
+                }
             }
+
         } else {
             Box(
                 modifier = Modifier

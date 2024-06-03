@@ -27,7 +27,8 @@ class AuthenticationViewModel : ViewModel() {
                     firestoreUser.displayName,
                     firestoreUser.email,
                     firestoreUser.photoUrl,
-                    firestoreUser.uid
+                    firestoreUser.uid,
+                    "",
                 ))
                 FirestoreService.setUser(user.value!!.data!!)
             }

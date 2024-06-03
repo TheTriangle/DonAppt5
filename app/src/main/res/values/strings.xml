@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DonAppt5</string>
+    <string name="app_name">A world a thread</string>
 
     <string name="facebook_app_id" translatable="false">198111061632211</string>
     <string name="facebook_application_id" translatable="false">198111061632211</string>
@@ -66,4 +66,10 @@
     <string name="settings">Settings</string>
     <string name="button_mark_donation">Mark</string>
     <string name="collected_out_of_text">Collected %1$s out of %2$s</string>
+    <string name="new_publications">New publications</string>
+    <string name="acheiveid_goals">Achieved goals</string>
+    <string name="urgent_messages">Urgent messages from fundraisers</string>
+    <string name="campaign_closures">Fundraising campaign closures</string>
+    <string name="notify_about_text">Notify me about:</string>
+    <string name="allow_from_text">Allow notifications from:</string>
 </resources>

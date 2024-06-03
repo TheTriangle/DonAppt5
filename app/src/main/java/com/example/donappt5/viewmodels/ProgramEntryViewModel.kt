@@ -1,16 +1,13 @@
 package com.example.donappt5.viewmodels
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Point
+import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.donappt5.data.model.User
 import com.example.donappt5.data.model.User.Companion.toUser
 import com.example.donappt5.data.services.FirestoreService
-import com.example.donappt5.views.charitycreation.popups.ActivityConfirm
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -61,6 +58,7 @@ class ProgramEntryViewModel : ViewModel() {
                     HashMap()
                 deviceToken["device_token"] = token
                 val user = FirebaseAuth.getInstance().currentUser
+                setCurrentUser(token)
                 db.collection("users").document(user!!.uid).update(deviceToken)
             }
     }
@@ -80,10 +78,11 @@ class ProgramEntryViewModel : ViewModel() {
         }
     }
 
-    fun setCurrentUser() {
+    fun setCurrentUser(deviceToken: String?) {
         FirebaseAuth.getInstance().currentUser?.let {
             FirestoreService.getUser(it.uid).addOnSuccessListener {
                 User.currentUser = it.toUser()
+                User.currentUser.deviceToken = deviceToken?: ""
             }
         }
     }
