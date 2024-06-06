@@ -412,9 +412,10 @@ object FirestoreService {
     fun getIsUserSubscribedTo(sourceId: String):Task<QuerySnapshot> {
         val db = FirebaseFirestore.getInstance()
 
-        return db.collection("notificationsubscriptions")
-            .whereEqualTo("sourceId", sourceId)
-            .whereEqualTo("userId", User.currentUser.uid).get()
+        return db.collection("users")
+            .document(User.currentUser.uid)
+            .collection("notifications")
+            .whereEqualTo("sourceId", sourceId).get()
     }
 
     //TODO prevent spamming
@@ -422,28 +423,39 @@ object FirestoreService {
         if (sourceId == null) return
         val db = FirebaseFirestore.getInstance()
 
-        db.collection("notificationsubscriptions")
-            .whereEqualTo("sourceId", sourceId)
-            .whereEqualTo("userId", User.currentUser.uid).get().addOnSuccessListener {
+        db.collection("users")
+            .document(User.currentUser.uid)
+            .collection("notifications")
+            .whereEqualTo("sourceid", sourceId).get().addOnSuccessListener {
                 for(doc in it) {
-                    db.collection("notificationsubscriptions").document(doc.id).delete()
+                    db.collection("users")
+                        .document(User.currentUser.uid)
+                        .collection("notifications").document(doc.id).delete()
                 }
             }
     }
 
     //TODO prevent spamming
-    fun subscribeTo(sourceId: String?) {
+    fun subscribeTo(sourceId: String?, sourceName: String) {
         if (sourceId == null) return
         val db = FirebaseFirestore.getInstance()
 
-        db.collection("notificationsubscriptions")
+        db.collection("users").document(User.currentUser.uid).collection("notifications")
             .add(
                 mapOf(
-                    "devicetoken" to User.currentUser.deviceToken,
-                    "userid" to User.currentUser.uid,
+                    //"devicetoken" to User.currentUser.deviceToken,
+                    //"userid" to User.currentUser.uid,
                     "sourcetype" to 0,
-                    "sourceid" to sourceId
+                    "sourceid" to sourceId,
+                    "sourcename" to sourceName
                 )
             )
+    }
+
+    fun getSubscriptions(): Task<QuerySnapshot> {
+        val db = FirebaseFirestore.getInstance()
+
+        return db.collection("users")
+            .document(User.currentUser.uid).collection("notifications").get()
     }
 }

@@ -103,7 +103,7 @@ class CharityActivity : AppCompatActivity() {
                                 FirestoreService.unsubscribeFrom(it.data?.firestoreID)
                             } else {
                                 titleCard.binding.ivBell.setImageResource(R.drawable.bell_filled)
-                                FirestoreService.subscribeTo(it.data?.firestoreID)
+                                FirestoreService.subscribeTo(it.data?.firestoreID, it.data?.name?: "")
                             }
                             isSubscribedTo = !isSubscribedTo
                         }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -42,16 +43,21 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.donappt5.R
+import com.example.donappt5.data.model.Campaign
+import com.example.donappt5.data.model.Campaign.Companion.toCampaign
 import com.example.donappt5.views.adapters.CharitiesAdapter
 import com.example.donappt5.databinding.ActivityOwnedCharityListBinding
 import com.example.donappt5.data.model.Charity
 import com.example.donappt5.data.model.Charity.Companion.putCharityExtra
 import com.example.donappt5.data.model.Comment
+import com.example.donappt5.data.model.NotificationSource
+import com.example.donappt5.data.model.NotificationSource.Companion.toNotificationSource
 import com.example.donappt5.data.services.FirestoreService
 import com.example.donappt5.data.util.MyGlobals
 import com.example.donappt5.data.util.Status
 import com.example.donappt5.databinding.ActivityCharitydescBinding
 import com.example.donappt5.databinding.ActivityNotificationsBinding
+import com.example.donappt5.views.charitydescription.components.CampaignListItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NotificationSetupActivity : AppCompatActivity() {
@@ -86,6 +92,18 @@ fun NotificationSetupPage() {
     var campaignOver by remember {
         mutableStateOf(true)
     }
+    var subscriptions by remember {
+        mutableStateOf(arrayListOf<NotificationSource>())
+    }
+
+    FirestoreService.getSubscriptions().addOnCompleteListener {
+        for (doc in it.result) {
+            val loadedSubscriptions = arrayListOf<NotificationSource>()
+            doc.toNotificationSource()?.let { subscription -> loadedSubscriptions.add(subscription) }
+            subscriptions = loadedSubscriptions
+        }
+    }
+
 
     CustomTheme {
         LazyColumn {
@@ -117,8 +135,14 @@ fun NotificationSetupPage() {
                 Text(style = CustomTheme.typography.body, color = CustomTheme.colors.primary,
                     text = stringResource(id = R.string.allow_from_text),
                     fontWeight = FontWeight.ExtraBold)
-                CheckItem(campaignOver, "Подари жизнь") {
-                    campaignOver = it
+            }
+            items(subscriptions) { subscription ->
+                CheckItem(subscription.subscribed.value, subscription.sourceName) {
+                    if (it) {
+                        subscription.subscribe()
+                    } else {
+                        subscription.unsubscribe()
+                    }
                 }
             }
         }
