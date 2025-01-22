@@ -13,7 +13,8 @@ class CharityRecommendationsViewModel : ViewModel() {
     var adapter = MutableLiveData<CharitiesAdapter>()
     var config = MutableLiveData<ModelConfig>()
 
-    suspend fun fillData() {
+    //XXX: Remove old recommendations framework
+/*    suspend fun fillData() {
         client.value?.load {
             val db = FirebaseFirestore.getInstance()
             var results = client.value?.recommend()
@@ -28,5 +29,9 @@ class CharityRecommendationsViewModel : ViewModel() {
                 }
             }
         }
+    }*/
+
+    suspend fun fillData() {
+
     }
 }
